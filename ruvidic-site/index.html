@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zoran Ruvidic — ruvidic.com</title>
+  <meta name="description" content="IT & Facility Lead. Security, Compliance, Automations, Photography, Fly Fishing, Marine Aquaristics.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+  <nav>
+    <a href="#top" class="nav-brand">RUVIDIĆ</a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#gallery">Photo</a>
+      <a href="#passions">Interests</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <section class="hero" id="top">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <a href="#top" class="hero-title-link" aria-label="Back to top">
+        <h1 id="hero-title"></h1>
+      </a>
+      <div class="hero-eyebrow" id="hero-eyebrow"></div>
+      <div class="hero-sub" id="hero-location"></div>
+      <div class="hero-tagline" id="hero-tagline"></div>
+      <div class="hero-cta">
+        <a href="#work" class="btn-outline">Professional Work</a>
+        <a href="#gallery" class="btn-outline">Photography</a>
+        <a href="#contact" class="btn-filled">Contact →</a>
+      </div>
+    </div>
+    <div class="hero-scroll">Scroll</div>
+  </section>
+
+  <section class="sw" id="about">
+    <div class="si">
+      <div class="sh fade-in">
+        <div class="sl">01 — About</div>
+        <div class="st">Soldier. Peacekeeper.<br><span>IT Enthusiast.</span></div>
+      </div>
+      <div class="about-grid">
+        <div class="about-text fade-in" id="about-text"></div>
+        <div class="timeline fade-in" id="timeline"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sw section-alt" id="work">
+    <div class="si">
+      <div class="sh fade-in">
+        <div class="sl">02 — Professional Work</div>
+        <div class="st">Areas of <span>expertise</span></div>
+      </div>
+      <div class="domain-grid fade-in section-gap" id="expertise-grid"></div>
+
+      <div class="sh fade-in mt-lg">
+        <div class="sl">Key implementations</div>
+        <div class="st st-sm">Projects</div>
+      </div>
+      <div class="project-list fade-in" id="project-list"></div>
+
+      <div class="sh fade-in mt-lg">
+        <div class="sl">Certifications & Qualifications</div>
+      </div>
+      <div class="cert-grid fade-in" id="cert-grid"></div>
+    </div>
+  </section>
+
+  <section class="sw" id="gallery">
+    <div class="si">
+      <div class="sh fade-in">
+        <div class="sl">03 — Photography</div>
+        <div class="st">Macro &amp; <span>Astro</span></div>
+      </div>
+      <div class="gallery-intro fade-in" id="gallery-intro"></div>
+      <div class="gallery-tabs fade-in" id="gallery-tabs"></div>
+      <div id="gallery-panels"></div>
+    </div>
+  </section>
+
+  <section class="sw section-alt" id="passions">
+    <div class="si">
+      <div class="sh fade-in">
+        <div class="sl">04 — Interests</div>
+        <div class="st">Outside work — <span>passion</span></div>
+      </div>
+      <div id="passion-sections"></div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact-section">
+    <div class="contact-inner">
+      <div class="contact-left fade-in">
+        <div class="contact-label">05 — Contact</div>
+        <h2 id="contact-title"></h2>
+        <p class="mt-md" id="contact-text"></p>
+        <div class="contact-links" id="contact-links"></div>
+      </div>
+
+      <div class="contact-form-area fade-in">
+        <h3>MESSAGE</h3>
+        <form id="contact-form" action="https://formspree.io/f/xwvrwbva" method="POST">
+          <div class="form-group"><label>Name</label><input type="text" name="name" placeholder="Your name" required></div>
+          <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="your@email.com" required></div>
+          <div class="form-group"><label>Subject</label><input type="text" name="subject" placeholder="IT Security, Consulting, Project..."></div>
+          <div class="form-group"><label>Message</label><textarea name="message" rows="4" placeholder="Tell me what's on your mind..." required></textarea></div>
+          <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off">
+          <input type="hidden" name="_subject" value="New message from ruvidic.com">
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAACsKqU80PwtS6kp6"></div>
+          
+          <button type="submit" class="btn-send">SEND →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-brand">RUVIDIĆ · © 2026</div>
+    <div class="footer-note">ruvidic.com · Hosted on Vercel</div>
+  </footer>
+
+  <a href="#contact" class="floating-contact" aria-label="Go to contact section">
+    <span class="dot"></span>
+    <span>Contact</span>
+  </a>
+
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <div class="lightbox-close">ESC / CLOSE ×</div>
+    <img id="lightbox-img" src="" alt="">
+  </div>
+
+  <script src="assets/js/content.js"></script>
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
