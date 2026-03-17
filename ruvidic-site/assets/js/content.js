@@ -16,7 +16,7 @@ window.siteContent = {
       { year: "2002–2016", role: "Non-commissioned officer - NCO", org: "Serbian Army", desc: "14 years of active service. Operations, logistics, training. Two medals owner", active: false },
       { year: "during service", role: "UN Peacekeeper", org: "MINUSCA — Central African Republic", desc: "7-month deployment with UN peacekeeping mission MINUSCA. Medal awarded by General Secretary of UN", active: false },
       { year: "2016–2021", role: "IT Manager", org: "Radisson Hotel Group<br>Marriott International", desc: "Infrastructure, networks, ITIL, SNOW, systems management.", active: false },
-      { year: "2021–present", role: "IT & Facility Lead", org: "Interventure d.o.o.", desc: "Security, GCP/GWS, Azure/Intune, automations, ISO 27001/27701/9001, BCP, IRP, fire safety, training.", active: true }
+      { year: "2021–present", role: "IT & Facility Lead", org: "Interventure d.o.o.", desc: "Security, GCP/GWS, Azure/Intune, CI/CD, ISO 27001/27701/9001, BCP, IRP, fire safety, training.", active: true }
     ]
   },
   expertise: [
