@@ -83,6 +83,40 @@ function renderCertifications() {
   });
 }
 
+function buildRibbonSVG(stripes) {
+  const W = 90, H = 28;
+  const total = stripes.reduce((s, st) => s + st.flex, 0);
+  let x = 0;
+  const rects = stripes.map(st => {
+    const w = (st.flex / total) * W;
+    const rect = `<rect x="${x.toFixed(2)}" y="0" width="${w.toFixed(2)}" height="${H}" fill="${st.color}"/>`;
+    x += w;
+    return rect;
+  }).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" style="display:block;border-radius:3px;overflow:hidden">${rects}</svg>`;
+}
+
+function renderMedals() {
+  const container = document.getElementById('medals-row');
+  if (!container || !content.medals) return;
+
+  content.medals.forEach(medal => {
+    const card = el('div', 'medal-card');
+    const lines = medal.name.split('\n');
+    card.innerHTML = `
+      <div class="medal-ribbon-wrap">
+        ${buildRibbonSVG(medal.ribbon)}
+        <div class="medal-bar"></div>
+      </div>
+      <div class="medal-info">
+        <div class="medal-name">${lines.join('<br>')}</div>
+        <div class="medal-issuer">${medal.issuer}</div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
 function renderGallery() {
   document.getElementById('gallery-intro').textContent = content.gallery.intro;
   const tabs = document.getElementById('gallery-tabs');
@@ -254,6 +288,7 @@ renderAbout();
 renderExpertise();
 renderProjects();
 renderCertifications();
+renderMedals();
 renderGallery();
 renderPassions();
 renderContact();
