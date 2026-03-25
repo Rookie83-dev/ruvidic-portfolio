@@ -25,12 +25,18 @@ function renderAbout() {
   const timeline = document.getElementById('timeline');
   content.about.timeline.forEach(item => {
     const wrap = el('div', 'tl-item');
+    const orgHtml = item.orgLink
+      ? `<a href="${item.orgLink}" target="_blank" rel="noopener noreferrer" class="tl-org tl-org-link">
+           ${item.orgLogo ? item.orgLogo : ''}
+           <span class="tl-org-name">${item.org}</span>
+         </a>`
+      : `<div class="tl-org">${item.org}</div>`;
     wrap.innerHTML = `
       <div class="tl-year">${item.year}</div>
       <div class="tl-dot ${item.active ? 'active' : ''}"></div>
       <div>
         <div class="tl-role">${item.role}</div>
-        <div class="tl-org">${item.org}</div>
+        ${orgHtml}
         <div class="tl-desc">${item.desc}</div>
       </div>
     `;
