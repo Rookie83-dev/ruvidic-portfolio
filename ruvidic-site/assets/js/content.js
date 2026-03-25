@@ -13,12 +13,55 @@ window.siteContent = {
       "Today the focus is on security, compliance, automations, ISO standards, BCP plans, policies, and training — everything that keeps a modern company operational and secure."
     ],
     timeline: [
-      { year: "2002–2016", role: "Non-commissioned officer - NCO", org: "Serbian Army", desc: "14 years of active service. Operations, logistics, training. Two medals owner", active: false },
-      { year: "during service", role: "UN Peacekeeper", org: "MINUSCA — Central African Republic", desc: "7-month deployment with UN peacekeeping mission MINUSCA. Medal awarded by General Secretary of UN", active: false },
+      { year: "2002–2016", role: "Non-commissioned officer - NCO", org: "Serbian Army", desc: "14 years of active service. Operations, logistics, training. Awarded Medal for 10 Years of Distinguished Service and 200th Anniversary of the Serbian Army Commemorative Medal.", active: false },
+      { year: "during service", role: "UN Peacekeeper", org: "MINUSCA — Central African Republic", desc: "7-month deployment with UN peacekeeping mission MINUSCA. Medal awarded by the UN Secretary-General. STANAG 6001 language certified.", active: false },
       { year: "2016–2021", role: "IT Manager", org: "Radisson Hotel Group<br>Marriott International", desc: "Infrastructure, networks, ITIL, SNOW, systems management.", active: false },
       { year: "2021–present", role: "IT & Facility Lead", org: "Interventure d.o.o.", desc: "Security, GCP/GWS/GSC, Azure/Intune, CI/CD, ISO 27001/27701/9001, BCP, IRP, fire safety, training.", active: true }
     ]
   },
+  medals: [
+    {
+      id: "service10",
+      name: "Medal for 10 Years\nof Distinguished Service",
+      issuer: "Serbian Army",
+      // ribbon: purple base with light-blue centre stripe and yellow accent
+      ribbon: [
+        { color: "#7B3FA0", flex: 3 },
+        { color: "#A8D8EA", flex: 1 },
+        { color: "#FFDD57", flex: 1 },
+        { color: "#A8D8EA", flex: 1 },
+        { color: "#7B3FA0", flex: 3 }
+      ]
+    },
+    {
+      id: "jubilee200",
+      name: "200th Anniversary\nCommemorative Medal",
+      issuer: "Serbian Army",
+      // ribbon: red sides, light-blue centre, yellow thin stripes
+      ribbon: [
+        { color: "#C0392B", flex: 2 },
+        { color: "#F1C40F", flex: 1 },
+        { color: "#5DADE2", flex: 4 },
+        { color: "#F1C40F", flex: 1 },
+        { color: "#C0392B", flex: 2 }
+      ]
+    },
+    {
+      id: "minusca",
+      name: "MINUSCA\nService Medal",
+      issuer: "United Nations · Secretary-General",
+      // ribbon: UN light-blue sides, dark-blue/white/red/yellow/green centre stripes
+      ribbon: [
+        { color: "#A8C8E8", flex: 3 },
+        { color: "#1A237E", flex: 2 },
+        { color: "#E0E0E0", flex: 2 },
+        { color: "#C62828", flex: 2 },
+        { color: "#F9A825", flex: 2 },
+        { color: "#2E7D32", flex: 2 },
+        { color: "#A8C8E8", flex: 3 }
+      ]
+    }
+  ],
   expertise: [
     { icon: "🔐", iconClass: "icon-teal", title: "IT Security & Audits", text: "SIEM implementation, GCP service accounts for Drive audit, OAuth audit, spam control, phishing tests, network analytics.", tags: [{label:"SIEM", class:"t-teal"},{label:"GCP", class:"t-teal"},{label:"Drive Audit", class:"t-teal"},{label:"OAuth", class:"t-teal"},{label:"Phishing", class:"t-teal"},{label:"Unifi API", class:"t-teal"}] },
     { icon: "⚙️", iconClass: "icon-blue", title: "Automations & Integrations", text: "OpenClaw server configuration+setting agents for several use cases, Apps Script workflow automations, API integrations with HubSpot and Slack, service accounts for email and calendar monitoring.", tags: [{label:"Apps Script", class:"t-blue"},{label:"HubSpot API", class:"t-blue"},{label:"Slack API", class:"t-blue"},{label:"Overclaw", class:"t-blue"},{label:"Gmail API", class:"t-blue"}] },
@@ -35,9 +78,11 @@ window.siteContent = {
     {num:"ISO", name:"ISO 27001", body:"Part of certification team"},
     {num:"ISO", name:"ISO 27701", body:"Privacy management"},
     {num:"ISO", name:"ISO 9001", body:"Quality management"},
+    {num:"GCP", name:"Google Cybersecurity", body:"Professional Certificate"},
     {num:"PP", name:"Fire Safety", body:"State exam — firefighter"},
+    {num:"IT", name:"ECDL", body:"European Computer Driving Licence"},
     {num:"UN", name:"UN Peacekeeper", body:"MINUSCA · Central African Rep."},
-    {num:"GCP", name:"Google Cloud", body:"Security & Admin"}
+    {num:"LANG", name:"STANAG 6001", body:"Military language proficiency"}
   ],
   gallery: {
     intro: "Patience and attention to detail. The world invisible to the naked eye, and celestial objects captured through a camera or digital telescope.",
