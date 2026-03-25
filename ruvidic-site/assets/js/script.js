@@ -25,12 +25,14 @@ function renderAbout() {
   const timeline = document.getElementById('timeline');
   content.about.timeline.forEach(item => {
     const wrap = el('div', 'tl-item');
-    const orgHtml = item.orgLink
-      ? `<a href="${item.orgLink}" target="_blank" rel="noopener noreferrer" class="tl-org tl-org-link">
-           ${item.orgLogo ? item.orgLogo : ''}
-           <span class="tl-org-name">${item.org}</span>
-         </a>`
-      : `<div class="tl-org">${item.org}</div>`;
+    let orgHtml;
+    if (item.orgLinks) {
+      orgHtml = `<div class="tl-org">${item.orgLinks.map(l =>
+        `<a href="${l.url}" target="_blank" rel="noopener noreferrer" class="tl-org-link">${l.label}</a>`
+      ).join('<span class="tl-org-sep"> · </span>')}</div>`;
+    } else {
+      orgHtml = `<div class="tl-org">${item.org}</div>`;
+    }
     wrap.innerHTML = `
       <div class="tl-year">${item.year}</div>
       <div class="tl-dot ${item.active ? 'active' : ''}"></div>
