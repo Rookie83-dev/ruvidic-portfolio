@@ -15,7 +15,22 @@ window.siteContent = {
     timeline: [
       { year: "2002–2016", role: "Non-commissioned officer - NCO", org: "Serbian Army", desc: "14 years of active service. Operations, logistics, training. Awarded Medal for 10 Years of Distinguished Service and 200th Anniversary of the Serbian Army Commemorative Medal.", active: false },
       { year: "during service", role: "UN Peacekeeper", org: "MINUSCA — Central African Republic", desc: "7-month deployment with UN peacekeeping mission MINUSCA. Medal awarded by the UN Secretary-General. STANAG 6001 language certified.", active: false },
-      { year: "2016–2021", role: "IT Manager", org: "Radisson Hotel Group<br>Marriott International", desc: "Infrastructure, networks, ITIL, SNOW, systems management.", active: false },
+      { year: "2016–2019", role: "IT Manager", org: "Radisson Hotel Group", desc: "Infrastructure, networks, ITIL, SNOW, systems management across Radisson properties.", active: false,
+        orgLink: "https://www.radissonhotels.com",
+        orgLogo: `<svg viewBox="0 0 120 28" xmlns="http://www.w3.org/2000/svg" style="height:18px;width:auto;display:inline-block;vertical-align:middle">
+          <rect width="120" height="28" rx="3" fill="#003580"/>
+          <text x="8" y="20" font-family="Arial,sans-serif" font-weight="700" font-size="13" fill="#ffffff" letter-spacing="0.5">RADISSON</text>
+          <text x="83" y="20" font-family="Arial,sans-serif" font-weight="400" font-size="9" fill="#C8A951" letter-spacing="0.3">HOTELS</text>
+        </svg>`
+      },
+      { year: "2019–2021", role: "IT Manager", org: "Marriott International", desc: "Systems management, guest technology, compliance and operational IT support.", active: false,
+        orgLink: "https://www.marriott.com",
+        orgLogo: `<svg viewBox="0 0 120 28" xmlns="http://www.w3.org/2000/svg" style="height:18px;width:auto;display:inline-block;vertical-align:middle">
+          <rect width="120" height="28" rx="3" fill="#8B0000"/>
+          <text x="8" y="20" font-family="Arial,sans-serif" font-weight="700" font-size="12" fill="#ffffff" letter-spacing="0.8">MARRIOTT</text>
+          <text x="82" y="20" font-family="Arial,sans-serif" font-weight="300" font-size="7" fill="#FFD700" letter-spacing="0.3">INTL</text>
+        </svg>`
+      },
       { year: "2021–present", role: "IT & Facility Lead", org: "Interventure d.o.o.", desc: "Security, GCP/GWS/GSC, Azure/Intune, CI/CD, ISO 27001/27701/9001, BCP, IRP, fire safety, training.", active: true }
     ]
   },
