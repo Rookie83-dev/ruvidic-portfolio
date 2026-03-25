@@ -15,13 +15,11 @@ window.siteContent = {
     timeline: [
       { year: "2002–2016", role: "Non-commissioned officer - NCO", org: "Serbian Army", desc: "14 years of active service. Operations, logistics, training. Awarded Medal for 10 Years of Distinguished Service and 200th Anniversary of the Serbian Army Commemorative Medal.", active: false },
       { year: "during service", role: "UN Peacekeeper", org: "MINUSCA — Central African Republic", desc: "7-month deployment with UN peacekeeping mission MINUSCA. Medal awarded by the UN Secretary-General. STANAG 6001 language certified.", active: false },
-      { year: "2016–2019", role: "IT Manager", org: "Radisson Hotel Group", desc: "Infrastructure, networks, ITIL, SNOW, systems management across Radisson properties.", active: false,
-        orgLink: "https://www.radissonhotels.com",
-        orgLogo: `<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Radisson_Hotel_Group_logo.svg/320px-Radisson_Hotel_Group_logo.svg.png" alt="Radisson Hotel Group" style="height:18px;width:auto;display:inline-block;vertical-align:middle;filter:brightness(0) invert(1) opacity(0.85)">`
-      },
-      { year: "2019–2021", role: "IT Manager", org: "Marriott International", desc: "Systems management, guest technology, compliance and operational IT support.", active: false,
-        orgLink: "https://www.marriott.com",
-        orgLogo: `<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Marriott_International.svg/320px-Marriott_International.svg.png" alt="Marriott International" style="height:16px;width:auto;display:inline-block;vertical-align:middle;filter:brightness(0) invert(1) opacity(0.85)">`
+      { year: "2016–2021", role: "IT Manager", org: "Radisson Hotel Group · Marriott International", desc: "Infrastructure, networks, ITIL, SNOW, systems management.", active: false,
+        orgLinks: [
+          { label: "Radisson Hotel Group", url: "https://www.radissonhotels.com" },
+          { label: "Marriott International", url: "https://www.marriott.com" }
+        ]
       },
       { year: "2021–present", role: "IT & Facility Lead", org: "Interventure d.o.o.", desc: "Security, GCP/GWS/GSC, Azure/Intune, CI/CD, ISO 27001/27701/9001, BCP, IRP, fire safety, training.", active: true }
     ]
