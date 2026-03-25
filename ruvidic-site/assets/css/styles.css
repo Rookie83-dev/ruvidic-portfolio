@@ -157,6 +157,11 @@ footer{max-width:var(--max);margin:0 auto;padding:32px 32px;display:flex;align-i
 .fade-in{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease}
 .fade-in.visible{opacity:1;transform:translateY(0)}
 
+/* ── TIMELINE ORG LOGO LINKS ─────────────────────────────── */
+.tl-org-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:opacity .2s}
+.tl-org-link:hover{opacity:.75}
+.tl-org-name{font-family:var(--mono);font-size:11px;color:var(--accent);line-height:1.6}
+
 /* ── MEDALS ─────────────────────────────────────────────── */
 .medals-section{margin-top:52px}
 .medals-label{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;margin-bottom:20px;text-align:center}
