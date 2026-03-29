@@ -13,15 +13,21 @@ window.siteContent = {
       "Today the focus is on security, compliance, automations, ISO standards, BCP plans, policies, and training — everything that keeps a modern company operational and secure."
     ],
     timeline: [
-      { year: "2002–2016", role: "Non-commissioned officer - NCO", org: "Serbian Army", desc: "14 years of active service. Operations, logistics, training. Awarded Medal for 10 Years of Distinguished Service and 200th Anniversary of the Serbian Army Commemorative Medal.", active: false },
-      { year: "during service", role: "UN Peacekeeper", org: "MINUSCA — Central African Republic", desc: "7-month deployment with UN peacekeeping mission MINUSCA. Medal awarded by the UN Secretary-General. STANAG 6001 language certified.", active: false },
+      { year: "2002–2016", role: "Non-commissioned officer - NCO", org: "Serbian Army", desc: "14 years of active service. Operations, logistics, training. Awarded Medal for 10 Years of Distinguished Service and 200th Anniversary of the Serbian Army Commemorative Medal.", active: false,
+        orgLinks: [{ label: "Serbian Army", url: "https://www.vs.rs/sr_lat" }]
+      },
+      { year: "during service", role: "UN Peacekeeper", org: "MINUSCA — Central African Republic", desc: "7-month deployment with UN peacekeeping mission MINUSCA. Medal awarded by the UN Secretary-General. STANAG 6001 language certified.", active: false,
+        orgLinks: [{ label: "MINUSCA — Central African Republic", url: "https://peacekeeping.un.org/en/mission/minusca" }]
+      },
       { year: "2016–2021", role: "IT Manager", org: "Radisson Hotel Group · Marriott International", desc: "Infrastructure, networks, ITIL, SNOW, systems management.", active: false,
         orgLinks: [
           { label: "Radisson Hotel Group", url: "https://www.radissonhotels.com" },
           { label: "Marriott International", url: "https://www.marriott.com" }
         ]
       },
-      { year: "2021–present", role: "IT & Facility Lead", org: "Interventure d.o.o.", desc: "Security, GCP/GWS/GSC, Azure/Intune, CI/CD, ISO 27001/27701/9001, BCP, IRP, fire safety, training.", active: true }
+      { year: "2021–present", role: "IT & Facility Lead", org: "Interventure d.o.o.", desc: "Security, GCP/GWS/GSC, Azure/Intune, CI/CD, ISO 27001/27701/9001, BCP, IRP, fire safety, training.", active: true,
+        orgLinks: [{ label: "Interventure d.o.o.", url: "https://interventure.info" }]
+      }
     ]
   },
   medals: [
