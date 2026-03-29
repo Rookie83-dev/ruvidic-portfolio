@@ -127,7 +127,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .contact-links{display:flex;flex-direction:column;gap:8px;margin-top:24px}
 .contact-link{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);transition:border-color .2s,transform .2s}
 .contact-link:hover{border-color:var(--border2);transform:translateX(4px)}
-.contact-link-icon{font-family:var(--mono);font-size:9px;color:var(--muted);min-width:52px;letter-spacing:.05em}
+.contact-link-icon{color:var(--muted);min-width:24px;display:flex;align-items:center}
 .contact-link-label{font-family:var(--sans);font-weight:700;font-size:11px;letter-spacing:.05em;text-transform:uppercase}
 .contact-link-sub{font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:auto}
 .contact-form-area{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:26px}
