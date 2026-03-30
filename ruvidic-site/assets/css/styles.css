@@ -192,3 +192,31 @@ footer{max-width:var(--max);margin:0 auto;padding:32px 32px;display:flex;align-i
   .medals-row{gap:14px}
   .medal-card{min-width:120px;padding:16px 14px}
 }
+/* ── PROFILE PHOTO ─────────────────────────────────────── */
+.about-grid-photo {
+  grid-template-columns: 220px 1fr 1fr !important;
+  gap: 40px;
+}
+.about-photo-wrap {
+  grid-row: 1 / 3;
+}
+.about-photo {
+  width: 220px;
+  height: 300px;
+  object-fit: cover;
+  object-position: center 15%;
+  border-radius: 6px;
+  filter: grayscale(15%);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: block;
+}
+@media(max-width:900px) {
+  .about-grid-photo {
+    grid-template-columns: 1fr !important;
+  }
+  .about-photo-wrap {
+    grid-row: auto;
+    display: flex;
+    justify-content: center;
+  }
+}
