@@ -142,21 +142,21 @@ window.siteContent = {
   ],
   blog: [
     {
-      slug: "blog/iso-27001.html",
+      slug: "blog/iso-27001",
       tag: "ISO · Compliance", tagClass: "t-green",
       title: "How to Prepare for ISO 27001",
       excerpt: "From gap analysis to audit day — a practical guide based on real certification experience.",
       date: "March 2026"
     },
     {
-      slug: "blog/gcp-security-checklist.html",
+      slug: "blog/gcp-security-checklist",
       tag: "GCP · Security", tagClass: "t-teal",
       title: "GCP Security Checklist",
       excerpt: "Practical controls for securing your Google Cloud environment — IAM, service accounts, audit logging and more.",
       date: "March 2026"
     },
     {
-      slug: "blog/common-compliance-mistakes.html",
+      slug: "blog/common-compliance-mistakes",
       tag: "Compliance · Audit", tagClass: "t-amber",
       title: "Common Compliance Mistakes",
       excerpt: "Patterns that keep appearing across organizations — and how to fix them before the auditor finds them first.",
