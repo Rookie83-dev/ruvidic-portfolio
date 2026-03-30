@@ -90,7 +90,7 @@ window.siteContent = {
     },
     {
       title: "ISO Triple Certification — 9001 / 27001 / 27701",
-      problem: "Company needed to achieve ISO 27001, 27701, and 9001 certification with no existing ISMS framework, no documented processes, and a tight deadline.",
+      problem: "Company needed to achieve ISO 27001, 27701, and 9001 certification with a tight deadline.",
       action: "Led the full certification process: gap analysis across all three standards, built the ISMS from scratch, authored all mandatory policies and procedures, conducted internal audits, managed the external audit preparation.",
       result: "Successfully certified across all three standards in a single audit cycle. Zero major non-conformities at the external audit.",
       tags: [{label:"ISO 27001", class:"t-green"},{label:"ISO 27701", class:"t-green"},{label:"ISO 9001", class:"t-green"},{label:"GDPR", class:"t-green"}],
@@ -100,7 +100,7 @@ window.siteContent = {
       title: "Office Presence Tracking System",
       problem: "No reliable way to track daily office attendance across multiple locations. Manual headcounts were inconsistent and time-consuming.",
       action: "Built an automated presence tracking solution using the Dahua DSS+ access control system. Extracted access records from MariaDB via Python, processed entry/exit data per employee, and delivered a daily Slack report via webhook — fully automated through Windows Task Scheduler.",
-      result: "Daily attendance reports delivered automatically to Slack every morning. Zero manual effort required. Solution deployed across Belgrade office with plan to replicate to other locations.",
+      result: "Daily attendance reports delivered automatically to Slack every morning. Zero manual effort required.",
       tags: [{label:"Python", class:"t-blue"},{label:"Slack API", class:"t-blue"},{label:"MariaDB", class:"t-teal"},{label:"Automation", class:"t-blue"}],
       status: {label:"Automation", class:"t-blue"}
     },
