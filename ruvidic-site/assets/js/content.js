@@ -145,7 +145,7 @@ window.siteContent = {
     text: "Always happy to connect — whether you're into IT, security or compliance, or you simply share an interest in fly fishing, macro photography or astrophotography.",
     links: [
       {type:"a", href:"https://www.linkedin.com/in/zoran-ruvidic/", target:"_blank", icon:"linkedin", label:"Zoran Ruvidic", sub:"↗"},
-      {type:"a", href:"https://www.instagram.com/zoran.ruvidic/", target:"_blank", icon:"instagram", label:"zoran.ruvidic", sub:"↗"},
+      {type:"a", href:"https://www.instagram.com/zoran_ruvidic/", target:"_blank", icon:"instagram", label:"zoran.ruvidic", sub:"↗"},
       {type:"div", icon:"location", label:"Belgrade, Serbia", sub:"📍"}
     ]
   }
