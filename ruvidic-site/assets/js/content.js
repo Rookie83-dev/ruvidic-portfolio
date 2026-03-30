@@ -80,10 +80,38 @@ window.siteContent = {
     { icon: "📋", iconClass: "icon-green", title: "ISO & Governance", text: "Planning, documentation and certification for ISO 9001, 27001 and 27701. BCP and IRP plans, data protection, network infrastructure.", tags: [{label:"ISO 9001", class:"t-green"},{label:"ISO 27001", class:"t-green"},{label:"ISO 27701", class:"t-green"},{label:"BCP/IRP", class:"t-green"}] }
   ],
   projects: [
-    { title: "GCP Security Audit Suite", text: "Service accounts for monitoring Drive activity outside the corporate domain, OAuth authorization and spam detection. Continuous alerting and automated reports.", tags: [{label:"Google Cloud", class:"t-teal"},{label:"Drive API", class:"t-teal"},{label:"Apps Script", class:"t-blue"}], status: {label:"Security", class:"t-teal"} },
-    { title: "Email & Calendar Oversight — Overclaw", text: "Service account implementation for email and calendar content search via the Overclaw platform, with API connection to the agency for compliance monitoring.", tags: [{label:"Overclaw", class:"t-blue"},{label:"Gmail API", class:"t-blue"},{label:"Calendar API", class:"t-blue"}], status: {label:"Audit", class:"t-blue"} },
-    { title: "Network Analytics — Unifi API", text: "Automated network data collection via Unifi controller. Real-time dashboards for traffic, device and security incident monitoring.", tags: [{label:"Unifi", class:"t-teal"},{label:"Network API", class:"t-teal"},{label:"Automation", class:"t-blue"}], status: {label:"Network", class:"t-teal"} },
-    { title: "ISO Triple Certification — 9001 / 27001 / 27701", text: "Gap analysis, documentation, internal audits, and successful completion of the certification process for all three standards.", tags: [{label:"ISO 27001", class:"t-green"},{label:"ISO 27701", class:"t-green"},{label:"ISO 9001", class:"t-green"},{label:"GDPR", class:"t-green"}], status: {label:"Compliance", class:"t-green"} }
+    {
+      title: "GCP Security Audit Suite",
+      problem: "No visibility into who was sharing corporate Drive files outside the domain, or which third-party OAuth apps had access to user accounts.",
+      action: "Built a suite of service accounts and Apps Script automations to continuously monitor Drive sharing activity, OAuth authorizations, and Gmail spam patterns. Automated daily reports with alerting on policy violations.",
+      result: "Full audit trail for all external file sharing. OAuth app access reduced by 60% after review. Phishing simulation failure rate dropped significantly after targeted training.",
+      tags: [{label:"Google Cloud", class:"t-teal"},{label:"Drive API", class:"t-teal"},{label:"Apps Script", class:"t-blue"},{label:"OAuth Audit", class:"t-teal"}],
+      status: {label:"Security", class:"t-teal"}
+    },
+    {
+      title: "ISO Triple Certification — 9001 / 27001 / 27701",
+      problem: "Company needed to achieve ISO 27001, 27701, and 9001 certification with no existing ISMS framework, no documented processes, and a tight deadline.",
+      action: "Led the full certification process: gap analysis across all three standards, built the ISMS from scratch, authored all mandatory policies and procedures, conducted internal audits, managed the external audit preparation.",
+      result: "Successfully certified across all three standards in a single audit cycle. Zero major non-conformities at the external audit.",
+      tags: [{label:"ISO 27001", class:"t-green"},{label:"ISO 27701", class:"t-green"},{label:"ISO 9001", class:"t-green"},{label:"GDPR", class:"t-green"}],
+      status: {label:"Compliance", class:"t-green"}
+    },
+    {
+      title: "Office Presence Tracking System",
+      problem: "No reliable way to track daily office attendance across multiple locations. Manual headcounts were inconsistent and time-consuming.",
+      action: "Built an automated presence tracking solution using the Dahua DSS+ access control system. Extracted access records from MariaDB via Python, processed entry/exit data per employee, and delivered a daily Slack report via webhook — fully automated through Windows Task Scheduler.",
+      result: "Daily attendance reports delivered automatically to Slack every morning. Zero manual effort required. Solution deployed across Belgrade office with plan to replicate to other locations.",
+      tags: [{label:"Python", class:"t-blue"},{label:"Slack API", class:"t-blue"},{label:"MariaDB", class:"t-teal"},{label:"Automation", class:"t-blue"}],
+      status: {label:"Automation", class:"t-blue"}
+    },
+    {
+      title: "Network Analytics — Unifi API",
+      problem: "Network incidents were detected reactively — only after users reported issues. No visibility into traffic patterns, rogue devices, or anomalies in real time.",
+      action: "Automated data collection from Unifi controller via API. Built real-time dashboards for traffic analysis, connected device monitoring, and security incident detection with alerting.",
+      result: "Proactive detection of network anomalies before user impact. Rogue device identification reduced incident investigation time from hours to minutes.",
+      tags: [{label:"Unifi API", class:"t-teal"},{label:"Network", class:"t-teal"},{label:"Automation", class:"t-blue"},{label:"SIEM", class:"t-teal"}],
+      status: {label:"Network", class:"t-teal"}
+    }
   ],
   certifications: [
     {num:"ISO", name:"ISO 27001", body:"Part of certification team"},
