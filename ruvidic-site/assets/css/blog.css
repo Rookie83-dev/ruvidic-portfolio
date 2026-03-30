@@ -32,10 +32,17 @@
 /* Footer */
 .blog-footer{display:flex;gap:12px;margin-top:56px;padding-top:32px;border-top:1px solid var(--border);flex-wrap:wrap}
 
+@media(max-width:900px){
+  .blog-inner{max-width:100%}
+  .passion-gear-grid{grid-template-columns:repeat(2,1fr)}
+}
 @media(max-width:700px){
   .blog-inner{padding:0 18px}
   .blog-article{padding:80px 0 60px}
   .blog-tip{flex-direction:column;gap:6px}
   .blog-footer{flex-direction:column}
-  .blog-footer a{text-align:center}
+  .blog-footer a{text-align:center;width:100%;box-sizing:border-box}
+  .blog-header h1{font-size:clamp(36px,10vw,60px)}
+  .passion-gear-grid{grid-template-columns:1fr}
+  .checklist-item{flex-direction:column;gap:8px}
 }
