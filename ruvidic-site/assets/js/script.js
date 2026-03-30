@@ -19,6 +19,17 @@ function renderHero() {
 }
 
 function renderAbout() {
+  if (content.about.photo) {
+    const aboutGrid = document.querySelector('.about-grid');
+    if (aboutGrid) {
+      const photoDiv = document.createElement('div');
+      photoDiv.className = 'about-photo-wrap fade-in';
+      photoDiv.innerHTML = `<img src="${content.about.photo}" alt="Zoran Ruvidić" class="about-photo">`;
+      aboutGrid.insertBefore(photoDiv, aboutGrid.firstChild);
+      aboutGrid.classList.add('about-grid-photo');
+    }
+  }
+
   const aboutText = document.getElementById('about-text');
   content.about.paragraphs.forEach(p => aboutText.appendChild(el('p', '', p)));
 
@@ -107,7 +118,6 @@ function buildRibbonSVG(stripes) {
 function renderMedals() {
   const container = document.getElementById('medals-row');
   if (!container || !content.medals) return;
-
   content.medals.forEach(medal => {
     const card = el('div', 'medal-card');
     const lines = medal.name.split('\n');
@@ -129,34 +139,28 @@ function renderGallery() {
   document.getElementById('gallery-intro').textContent = content.gallery.intro;
   const tabs = document.getElementById('gallery-tabs');
   const panels = document.getElementById('gallery-panels');
-
   content.gallery.tabs.forEach((tab, index) => {
     const btn = el('button', `gtab ${index === 0 ? 'active' : ''}`, tab.label);
     btn.type = 'button';
     btn.addEventListener('click', () => switchTab(tab.key, btn));
     tabs.appendChild(btn);
-
     const panel = el('div', `gallery-panel ${index === 0 ? 'active' : ''}`);
     panel.id = `panel-${tab.key}`;
-
     tab.images.forEach(image => {
       const cell = el('div', `g-cell ${image.wide ? 'wide' : ''}`);
       cell.innerHTML = `<img src="${image.src}" alt="${image.alt}"><div class="g-caption">${image.caption}</div>`;
       cell.addEventListener('click', () => openLightbox(cell));
       panel.appendChild(cell);
     });
-
     panels.appendChild(panel);
   });
 }
 
 function renderPassions() {
   const root = document.getElementById('passion-sections');
-
   content.passions.forEach(section => {
     const block = el('div', 'passion-block fade-in');
     const inner = el('div', `passion-block-inner ${section.reverse ? 'reverse' : ''}`);
-
     const textSide = el('div');
     textSide.innerHTML = `
       <div class="passion-label" style="color:${section.labelColor}">${section.label}</div>
@@ -164,7 +168,6 @@ function renderPassions() {
       <p style="margin-top:12px">${section.text}</p>
       <div class="tags" style="margin-top:16px">${renderTags(section.tags)}</div>
     `;
-
     let visual;
     if (section.visual.type === 'stats') {
       visual = el('div', 'interest-visual');
@@ -192,7 +195,6 @@ function renderPassions() {
         visual.appendChild(item);
       });
     }
-
     inner.appendChild(textSide);
     inner.appendChild(visual);
     block.appendChild(inner);
@@ -209,7 +211,6 @@ const CONTACT_ICONS = {
 function renderContact() {
   document.getElementById('contact-title').innerHTML = content.contact.title;
   document.getElementById('contact-text').textContent = content.contact.text;
-
   const links = document.getElementById('contact-links');
   content.contact.links.forEach(link => {
     const node = document.createElement(link.type);
@@ -239,20 +240,17 @@ function initFadeObserver() {
       if (entry.isIntersecting) entry.target.classList.add('visible');
     });
   }, { threshold: 0.08 });
-
   document.querySelectorAll('.fade-in').forEach(node => obs.observe(node));
 }
 
 function initNavTracking() {
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-links a');
-
   window.addEventListener('scroll', () => {
     let cur = '';
     sections.forEach(section => {
       if (window.scrollY >= section.offsetTop - 100) cur = section.getAttribute('id');
     });
-
     navLinks.forEach(link => {
       link.classList.remove('active');
       if (link.getAttribute('href') === '#' + cur) link.classList.add('active');
@@ -293,9 +291,7 @@ function handleFormSubmit() {
 
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
-  contactForm.addEventListener('submit', () => {
-    handleFormSubmit();
-  });
+  contactForm.addEventListener('submit', () => { handleFormSubmit(); });
 }
 
 renderHero();
