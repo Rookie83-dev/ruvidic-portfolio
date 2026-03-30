@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GCP Security Checklist — Zoran Ruvidić</title>
+  <meta name="description" content="A practical Google Cloud Platform security checklist covering IAM, service accounts, audit logging, network controls, and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/blog.css">
+</head>
+<body>
+  <nav>
+    <a href="../index.html" class="nav-brand">RUVIDIĆ</a>
+    <div class="nav-links">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#gallery">Photo</a>
+      <a href="../index.html#passions">Interests</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+  <article class="blog-article">
+    <div class="blog-inner">
+
+      <header class="blog-header">
+        <div class="blog-meta">
+          <span class="blog-tag t-teal">GCP · Security</span>
+          <span class="blog-date">March 2026</span>
+        </div>
+        <h1>GCP Security<br><span>Checklist</span></h1>
+        <p class="blog-lead">Practical controls for securing your Google Cloud Platform environment — from IAM hygiene to audit logging and beyond.</p>
+      </header>
+
+      <div class="blog-body">
+
+        <h2>Identity & Access Management (IAM)</h2>
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">✓</span>
+            <div><strong>Apply least privilege.</strong> Every user, group, and service account should have only the permissions required for their role. Avoid basic roles (Owner, Editor, Viewer) on production resources.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">✓</span>
+            <div><strong>Enable MFA for all human accounts.</strong> Especially for admin-level access. Use hardware keys for privileged users where possible.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">✓</span>
+            <div><strong>Review IAM bindings quarterly.</strong> Remove stale permissions. Former employees, old projects, and test accounts accumulate access over time.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">✓</span>
+            <div><strong>Use groups, not individuals.</strong> Bind roles to Google Groups, not personal emails. It's easier to manage and audit.</div>
+          </div>
+        </div>
+
+        <h2>Service Accounts</h2>
+        <p>Service accounts are one of the most common sources of GCP security incidents. Treat them like privileged identities.</p>
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">✓</span>
+            <div><strong>Never use default service accounts.</strong> Create dedicated service accounts per application with scoped permissions.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">✓</span>
+            <div><strong>Disable service account key creation where possible.</strong> Prefer Workload Identity Federation or short-lived tokens over long-lived JSON keys.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">✓</span>
+            <div><strong>Audit service account usage.</strong> Use Cloud Audit Logs to track which service accounts are being used, from where, and for what.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">✓</span>
+            <div><strong>Never grant service accounts Owner or Editor roles.</strong> Always use specific predefined or custom roles.</div>
+          </div>
+        </div>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Real-world scenario</span>
+          A service account with Editor role on a project is effectively a skeleton key. One leaked JSON key and an attacker can read, modify, or delete most resources. Scope it down — even if it's inconvenient.
+        </div>
+
+        <h2>Audit Logging</h2>
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">✓</span>
+            <div><strong>Enable Data Access audit logs.</strong> Admin Activity logs are on by default. Data Read and Data Write logs must be explicitly enabled per service.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">✓</span>
+            <div><strong>Export logs to a separate project or SIEM.</strong> If an attacker compromises your project, you don't want them to be able to delete audit evidence.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">✓</span>
+            <div><strong>Set log retention policy.</strong> Default Cloud Logging retention is 30 days for most logs. Export to Cloud Storage or BigQuery for longer retention if required by compliance.</div>
+          </div>
+        </div>
+
+        <h2>Network Controls</h2>
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">✓</span>
+            <div><strong>Use VPC firewall rules with least privilege.</strong> Deny all by default. Allow only specific protocols, ports, and source ranges that are needed.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">✓</span>
+            <div><strong>Restrict external IPs.</strong> Use Private Google Access and VPC Service Controls to keep traffic inside Google's network where possible.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">✓</span>
+            <div><strong>Enable VPC Flow Logs.</strong> Essential for detecting unusual traffic patterns and investigating incidents.</div>
+          </div>
+        </div>
+
+        <h2>Google Workspace Integration</h2>
+        <p>If you use GCP alongside Google Workspace (Gmail, Drive, Calendar), security controls apply across both.</p>
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">✓</span>
+            <div><strong>Audit OAuth app access.</strong> Third-party apps connected to Workspace can access emails, files, and calendars. Review and restrict via Admin Console → Security → API Controls.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">✓</span>
+            <div><strong>Monitor Drive sharing.</strong> Use service accounts and Drive API to detect files shared outside your domain. This is a common data leakage vector.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">✓</span>
+            <div><strong>Enable Google Workspace alert policies.</strong> Suspicious login, account compromise, and data exfiltration alerts are available and should be routed to your security team.</div>
+          </div>
+        </div>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Bottom line</span>
+          GCP gives you the tools — IAM Recommender, Security Command Center, Policy Analyzer. The challenge isn't capability, it's discipline: reviewing, rotating, restricting. Build these checks into your monthly ops routine, not your annual audit.
+        </div>
+
+      </div>
+
+      <footer class="blog-footer">
+        <a href="../index.html#blog" class="btn-outline">← Back to Blog</a>
+        <a href="../index.html#contact" class="btn-filled">Get in touch →</a>
+      </footer>
+
+    </div>
+  </article>
+
+  <footer>
+    <div class="footer-brand">RUVIDIĆ · © 2026</div>
+    <div class="footer-note">ruvidic.com · Hosted on Vercel</div>
+  </footer>
+
+</body>
+</html>
