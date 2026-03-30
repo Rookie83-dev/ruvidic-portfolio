@@ -19,17 +19,6 @@ function renderHero() {
 }
 
 function renderAbout() {
-  if (content.about.photo) {
-    const aboutGrid = document.querySelector('.about-grid');
-    if (aboutGrid) {
-      const photoDiv = document.createElement('div');
-      photoDiv.className = 'about-photo-wrap fade-in';
-      photoDiv.innerHTML = `<img src="${content.about.photo}" alt="Zoran Ruvidić" class="about-photo">`;
-      aboutGrid.insertBefore(photoDiv, aboutGrid.firstChild);
-      aboutGrid.classList.add('about-grid-photo');
-    }
-  }
-
   const aboutText = document.getElementById('about-text');
   content.about.paragraphs.forEach(p => aboutText.appendChild(el('p', '', p)));
 
@@ -118,6 +107,7 @@ function buildRibbonSVG(stripes) {
 function renderMedals() {
   const container = document.getElementById('medals-row');
   if (!container || !content.medals) return;
+
   content.medals.forEach(medal => {
     const card = el('div', 'medal-card');
     const lines = medal.name.split('\n');
@@ -139,28 +129,34 @@ function renderGallery() {
   document.getElementById('gallery-intro').textContent = content.gallery.intro;
   const tabs = document.getElementById('gallery-tabs');
   const panels = document.getElementById('gallery-panels');
+
   content.gallery.tabs.forEach((tab, index) => {
     const btn = el('button', `gtab ${index === 0 ? 'active' : ''}`, tab.label);
     btn.type = 'button';
     btn.addEventListener('click', () => switchTab(tab.key, btn));
     tabs.appendChild(btn);
+
     const panel = el('div', `gallery-panel ${index === 0 ? 'active' : ''}`);
     panel.id = `panel-${tab.key}`;
+
     tab.images.forEach(image => {
       const cell = el('div', `g-cell ${image.wide ? 'wide' : ''}`);
       cell.innerHTML = `<img src="${image.src}" alt="${image.alt}"><div class="g-caption">${image.caption}</div>`;
       cell.addEventListener('click', () => openLightbox(cell));
       panel.appendChild(cell);
     });
+
     panels.appendChild(panel);
   });
 }
 
 function renderPassions() {
   const root = document.getElementById('passion-sections');
+
   content.passions.forEach(section => {
     const block = el('div', 'passion-block fade-in');
     const inner = el('div', `passion-block-inner ${section.reverse ? 'reverse' : ''}`);
+
     const textSide = el('div');
     textSide.innerHTML = `
       <div class="passion-label" style="color:${section.labelColor}">${section.label}</div>
@@ -168,6 +164,7 @@ function renderPassions() {
       <p style="margin-top:12px">${section.text}</p>
       <div class="tags" style="margin-top:16px">${renderTags(section.tags)}</div>
     `;
+
     let visual;
     if (section.visual.type === 'stats') {
       visual = el('div', 'interest-visual');
@@ -195,6 +192,7 @@ function renderPassions() {
         visual.appendChild(item);
       });
     }
+
     inner.appendChild(textSide);
     inner.appendChild(visual);
     block.appendChild(inner);
@@ -208,9 +206,30 @@ const CONTACT_ICONS = {
   location: `<svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>`
 };
 
+function renderBlog() {
+  const grid = document.getElementById('blog-grid');
+  if (!grid || !content.blog) return;
+  content.blog.forEach(post => {
+    const card = document.createElement('a');
+    card.className = 'blog-card';
+    card.href = post.slug;
+    card.innerHTML = `
+      <div class="blog-card-meta">
+        <span class="tag ${post.tagClass}">${post.tag}</span>
+        <span class="blog-card-date">${post.date}</span>
+      </div>
+      <h3 class="blog-card-title">${post.title}</h3>
+      <p class="blog-card-excerpt">${post.excerpt}</p>
+      <span class="blog-card-read">Read more →</span>
+    `;
+    grid.appendChild(card);
+  });
+}
+
 function renderContact() {
   document.getElementById('contact-title').innerHTML = content.contact.title;
   document.getElementById('contact-text').textContent = content.contact.text;
+
   const links = document.getElementById('contact-links');
   content.contact.links.forEach(link => {
     const node = document.createElement(link.type);
@@ -240,17 +259,20 @@ function initFadeObserver() {
       if (entry.isIntersecting) entry.target.classList.add('visible');
     });
   }, { threshold: 0.08 });
+
   document.querySelectorAll('.fade-in').forEach(node => obs.observe(node));
 }
 
 function initNavTracking() {
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-links a');
+
   window.addEventListener('scroll', () => {
     let cur = '';
     sections.forEach(section => {
       if (window.scrollY >= section.offsetTop - 100) cur = section.getAttribute('id');
     });
+
     navLinks.forEach(link => {
       link.classList.remove('active');
       if (link.getAttribute('href') === '#' + cur) link.classList.add('active');
@@ -291,7 +313,9 @@ function handleFormSubmit() {
 
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
-  contactForm.addEventListener('submit', () => { handleFormSubmit(); });
+  contactForm.addEventListener('submit', () => {
+    handleFormSubmit();
+  });
 }
 
 renderHero();
@@ -300,6 +324,7 @@ renderExpertise();
 renderProjects();
 renderCertifications();
 renderMedals();
+renderBlog();
 renderGallery();
 renderPassions();
 renderContact();
