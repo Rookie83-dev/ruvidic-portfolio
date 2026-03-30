@@ -150,7 +150,9 @@ function renderMedals() {
 }
 
 function renderGallery() {
-  document.getElementById('gallery-intro').textContent = content.gallery.intro;
+  const galleryIntro = document.getElementById('gallery-intro');
+  if (!galleryIntro) return;
+  galleryIntro.textContent = content.gallery.intro;
   const tabs = document.getElementById('gallery-tabs');
   const panels = document.getElementById('gallery-panels');
 
@@ -322,7 +324,6 @@ renderProjects();
 renderCertifications();
 renderMedals();
 renderBlog();
-renderGallery();
 renderPassions();
 renderContact();
 initFadeObserver();
