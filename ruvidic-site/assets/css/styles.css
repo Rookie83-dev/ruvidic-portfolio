@@ -80,6 +80,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .project-list{display:flex;flex-direction:column;gap:10px;text-align:left}
 .project-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px 24px;display:grid;grid-template-columns:1fr auto;gap:14px;transition:border-color .2s}
 .project-card:hover{border-color:var(--border2)}
+.project-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+.project-card-top h3{margin-bottom:0}
+.project-proof{display:flex;flex-direction:column;gap:0;margin-bottom:14px}
+.proof-row{display:grid;grid-template-columns:72px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.proof-row:last-child{border-bottom:none}
+.proof-label{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding-top:3px;white-space:nowrap}
+.proof-problem{color:var(--accent3)}
+.proof-action{color:var(--accent2)}
+.proof-result{color:var(--green)}
+.proof-text{font-family:var(--slab);font-size:13px;color:var(--muted);line-height:1.8;font-weight:300;margin:0}
+.proof-result-text{color:#9ecfb8;font-weight:400}
 .project-card h3{font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
 .project-card p{font-family:var(--slab);font-size:13px;color:var(--muted);line-height:1.8;font-weight:300}
 .status-tag{white-space:nowrap;height:fit-content}
