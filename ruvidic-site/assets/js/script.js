@@ -64,14 +64,38 @@ function renderProjects() {
   const list = document.getElementById('project-list');
   content.projects.forEach(project => {
     const node = el('div', 'project-card');
-    node.innerHTML = `
-      <div>
-        <h3>${project.title}</h3>
-        <p>${project.text}</p>
+    if (project.problem) {
+      node.innerHTML = `
+        <div class="project-card-top">
+          <h3>${project.title}</h3>
+          <span class="tag ${project.status.class} status-tag">${project.status.label}</span>
+        </div>
+        <div class="project-proof">
+          <div class="proof-row">
+            <span class="proof-label proof-problem">Problem</span>
+            <p class="proof-text">${project.problem}</p>
+          </div>
+          <div class="proof-row">
+            <span class="proof-label proof-action">Action</span>
+            <p class="proof-text">${project.action}</p>
+          </div>
+          <div class="proof-row">
+            <span class="proof-label proof-result">Result</span>
+            <p class="proof-text proof-result-text">${project.result}</p>
+          </div>
+        </div>
         <div class="tags tags-top">${renderTags(project.tags)}</div>
-      </div>
-      <span class="tag ${project.status.class} status-tag">${project.status.label}</span>
-    `;
+      `;
+    } else {
+      node.innerHTML = `
+        <div>
+          <h3>${project.title}</h3>
+          <p>${project.text}</p>
+          <div class="tags tags-top">${renderTags(project.tags)}</div>
+        </div>
+        <span class="tag ${project.status.class} status-tag">${project.status.label}</span>
+      `;
+    }
     list.appendChild(node);
   });
 }
