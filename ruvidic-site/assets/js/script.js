@@ -176,52 +176,25 @@ function renderGallery() {
 
 function renderPassions() {
   const root = document.getElementById('passion-sections');
+  if (!root || !content.passions) return;
 
-  content.passions.forEach(section => {
-    const block = el('div', 'passion-block fade-in');
-    const inner = el('div', `passion-block-inner ${section.reverse ? 'reverse' : ''}`);
-
-    const textSide = el('div');
-    textSide.innerHTML = `
-      <div class="passion-label" style="color:${section.labelColor}">${section.label}</div>
-      <h3>${section.title}</h3>
-      <p style="margin-top:12px">${section.text}</p>
-      <div class="tags" style="margin-top:16px">${renderTags(section.tags)}</div>
+  const grid = el('div', 'blog-grid');
+  content.passions.forEach(passion => {
+    const card = document.createElement('a');
+    card.className = 'blog-card';
+    card.href = passion.slug;
+    card.innerHTML = `
+      <div class="blog-card-meta">
+        <span class="passion-icon">${passion.icon}</span>
+        <span class="tag ${passion.tagClass}">${passion.tag}</span>
+      </div>
+      <h3 class="blog-card-title">${passion.title}</h3>
+      <p class="blog-card-excerpt">${passion.excerpt}</p>
+      <span class="blog-card-read">Read more →</span>
     `;
-
-    let visual;
-    if (section.visual.type === 'stats') {
-      visual = el('div', 'interest-visual');
-      visual.innerHTML = `<div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px">${section.visual.title}</div>`;
-      section.visual.rows.forEach(row => {
-        const stat = el('div', 'interest-stat');
-        stat.innerHTML = `
-          <div class="interest-stat-num">${row.num}</div>
-          <div style="flex:1">
-            <div class="interest-stat-label">${row.label}</div>
-            <div class="interest-stat-bar"><div class="interest-stat-fill" style="width:${row.width}"></div></div>
-          </div>
-        `;
-        visual.appendChild(stat);
-      });
-    } else {
-      visual = el('div', 'aqua-visual');
-      section.visual.cells.forEach(cell => {
-        const item = el('div', 'aqua-cell');
-        item.innerHTML = `
-          <div class="aqua-cell-icon">${cell.icon}</div>
-          <div class="aqua-cell-title">${cell.title}</div>
-          <div class="aqua-cell-sub">${cell.sub}</div>
-        `;
-        visual.appendChild(item);
-      });
-    }
-
-    inner.appendChild(textSide);
-    inner.appendChild(visual);
-    block.appendChild(inner);
-    root.appendChild(block);
+    grid.appendChild(card);
   });
+  root.appendChild(grid);
 }
 
 const CONTACT_ICONS = {
