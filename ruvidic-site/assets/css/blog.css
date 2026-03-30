@@ -18,8 +18,8 @@
 .blog-body strong{color:var(--text);font-weight:500}
 
 /* Tip box */
-.blog-tip{background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:18px 20px;margin:28px 0;display:flex;gap:14px;align-items:flex-start}
-.blog-tip-label{font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;padding-top:2px;min-width:80px}
+.blog-tip{background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:18px 20px;margin:28px 0;display:flex;flex-direction:column;gap:8px}
+.blog-tip-label{font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;display:block;margin-bottom:4px}
 .blog-tip{font-family:var(--slab);font-size:13px;color:var(--muted);line-height:1.9;font-weight:300}
 
 /* Checklist */
