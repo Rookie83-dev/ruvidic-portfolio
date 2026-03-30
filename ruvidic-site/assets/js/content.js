@@ -90,7 +90,7 @@ window.siteContent = {
     },
     {
       title: "ISO Triple Certification — 9001 / 27001 / 27701",
-      problem: "Company needed to achieve ISO 27001, 27701, and 9001 certification with a tight deadline.",
+      problem: "Company needed to achieve ISO 27001, 27701, and 9001 certification with no existing ISMS framework, no documented processes, and a tight deadline.",
       action: "Led the full certification process: gap analysis across all three standards, built the ISMS from scratch, authored all mandatory policies and procedures, conducted internal audits, managed the external audit preparation.",
       result: "Successfully certified across all three standards in a single audit cycle. Zero major non-conformities at the external audit.",
       tags: [{label:"ISO 27001", class:"t-green"},{label:"ISO 27701", class:"t-green"},{label:"ISO 9001", class:"t-green"},{label:"GDPR", class:"t-green"}],
@@ -100,7 +100,7 @@ window.siteContent = {
       title: "Office Presence Tracking System",
       problem: "No reliable way to track daily office attendance across multiple locations. Manual headcounts were inconsistent and time-consuming.",
       action: "Built an automated presence tracking solution using the Dahua DSS+ access control system. Extracted access records from MariaDB via Python, processed entry/exit data per employee, and delivered a daily Slack report via webhook — fully automated through Windows Task Scheduler.",
-      result: "Daily attendance reports delivered automatically to Slack every morning. Zero manual effort required.",
+      result: "Daily attendance reports delivered automatically to Slack every morning. Zero manual effort required. Solution deployed across Belgrade office with plan to replicate to other locations.",
       tags: [{label:"Python", class:"t-blue"},{label:"Slack API", class:"t-blue"},{label:"MariaDB", class:"t-teal"},{label:"Automation", class:"t-blue"}],
       status: {label:"Automation", class:"t-blue"}
     },
@@ -141,31 +141,25 @@ window.siteContent = {
   },
   passions: [
     {
-      reverse: true,
-      label: "Fly Fishing",
-      labelColor: "var(--accent2)",
-      title: "The river as<br>meditation",
-      text: "Fly fishing is not just fishing — it's reading water, knowing entomology, the precision of a cast, and the deep silence alongside a river. The Drina, Gradac, Ljubovidja and other kindred streams — the lifeblood of our great rivers.",
-      tags: [{label:"Dry Fly", class:"t-amber"},{label:"Nymph", class:"t-amber"},{label:"Streamers", class:"t-amber"},{label:"Fly tying", class:"t-amber"}],
-      visual: { type: "stats", title: "Favourite waters", rows: [
-        {num:"DRINA", label:"Grayling & Trout", width:"90%"},
-        {num:"GRADAC", label:"Brown trout · Grayling", width:"72%"},
-        {num:"LJUBOVIDJA", label:"Mountain river · Trout", width:"58%"}
-      ]}
+      slug: "passions/fly-fishing",
+      tag: "Fly Fishing · Rivers", tagClass: "t-amber",
+      title: "The River as Meditation",
+      excerpt: "Reading water, knowing entomology, the precision of a cast, and the deep silence alongside the Drina, Gradac and Ljubovidja rivers.",
+      icon: "🎣"
     },
     {
-      reverse: false,
-      label: "Marine Aquaristics",
-      labelColor: "var(--accent3)",
-      title: "Ocean<br>in four walls",
-      text: "A reef tank is a living ecosystem — water chemistry, light cycles, species compatibility. Biology, chemistry and patience in miniature format.",
-      tags: [{label:"Reef Tank", class:"t-blue"},{label:"SPS Corals", class:"t-blue"},{label:"LPS Corals", class:"t-blue"},{label:"Water chemistry", class:"t-blue"}],
-      visual: { type: "grid", cells: [
-        {icon:"🐠", title:"Marine fish", sub:"Clownfish, Tang, Blenny"},
-        {icon:"🪸", title:"SPS & LPS", sub:"Acropora, Hammer, Frogspawn"},
-        {icon:"⚗️", title:"Water chemistry", sub:"Ca, Mg, Alk, NO3, PO4"},
-        {icon:"💡", title:"LED Spectrum", sub:"Photoperiod & intensity"}
-      ]}
+      slug: "passions/marine-aquaristics",
+      tag: "Reef Tank · Marine", tagClass: "t-blue",
+      title: "Ocean in Four Walls",
+      excerpt: "A reef tank is a living ecosystem — water chemistry, light cycles, species compatibility. Biology and chemistry in miniature format.",
+      icon: "🪸"
+    },
+    {
+      slug: "passions/photography",
+      tag: "Macro · Astrophotography", tagClass: "t-teal",
+      title: "Macro & Astrophotography",
+      excerpt: "The world invisible to the naked eye, and celestial objects captured through a Sony A7 IV. Patience and attention to detail.",
+      icon: "📷"
     }
   ],
   blog: [
