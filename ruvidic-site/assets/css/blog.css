@@ -1,0 +1,41 @@
+.blog-article{padding:100px 0 80px;min-height:100vh}
+.blog-inner{max-width:720px;margin:0 auto;padding:0 32px}
+
+/* Header */
+.blog-header{margin-bottom:56px;padding-bottom:40px;border-bottom:1px solid var(--border)}
+.blog-meta{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.blog-tag{font-family:var(--mono);font-size:9px;padding:4px 10px;border-radius:3px;letter-spacing:.06em;text-transform:uppercase}
+.blog-date{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.08em}
+.blog-header h1{font-family:var(--display);font-size:clamp(42px,8vw,80px);line-height:.95;letter-spacing:.04em;color:var(--text);margin-bottom:20px}
+.blog-header h1 span{color:var(--accent)}
+.blog-lead{font-family:var(--slab);font-size:16px;color:#8a95a8;line-height:1.9;font-weight:300;max-width:600px}
+
+/* Body */
+.blog-body h2{font-family:var(--display);font-size:clamp(22px,4vw,30px);letter-spacing:.05em;color:var(--text);margin:44px 0 16px}
+.blog-body h2:first-child{margin-top:0}
+.blog-body p{font-family:var(--slab);font-size:15px;color:#8a95a8;line-height:2;font-weight:300;margin-bottom:16px}
+.blog-body p em{color:var(--text);font-style:italic}
+.blog-body strong{color:var(--text);font-weight:500}
+
+/* Tip box */
+.blog-tip{background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:18px 20px;margin:28px 0;display:flex;gap:14px;align-items:flex-start}
+.blog-tip-label{font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;padding-top:2px;min-width:80px}
+.blog-tip{font-family:var(--slab);font-size:13px;color:var(--muted);line-height:1.9;font-weight:300}
+
+/* Checklist */
+.checklist{display:flex;flex-direction:column;gap:14px;margin:20px 0 28px}
+.checklist-item{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px}
+.check{font-family:var(--mono);font-size:11px;color:var(--green);min-width:16px;padding-top:2px}
+.checklist-item div{font-family:var(--slab);font-size:13px;color:var(--muted);line-height:1.8;font-weight:300}
+.checklist-item strong{color:var(--text);font-weight:500}
+
+/* Footer */
+.blog-footer{display:flex;gap:12px;margin-top:56px;padding-top:32px;border-top:1px solid var(--border);flex-wrap:wrap}
+
+@media(max-width:700px){
+  .blog-inner{padding:0 18px}
+  .blog-article{padding:80px 0 60px}
+  .blog-tip{flex-direction:column;gap:6px}
+  .blog-footer{flex-direction:column}
+  .blog-footer a{text-align:center}
+}
