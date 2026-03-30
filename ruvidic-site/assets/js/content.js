@@ -7,7 +7,6 @@ window.siteContent = {
     tagline: "Army, UN mission, IT — and always a river,<br>a lens, or an aquarium somewhere in the background."
   },
   about: {
-    photo: "photos/DSC07593.JPG",
     paragraphs: [
       "My career started in uniform — 14 years in the Serbian Army, including a 7-month deployment with the UN peacekeeping mission MINUSCA in the Central African Republic. Operational work far from home, in conditions that demand precision and a cool head.",
       "Then came hospitality IT and facilities — infrastructure, networks, helpdesk, systems management, and operational support across international hotel environments.",
@@ -36,6 +35,7 @@ window.siteContent = {
       id: "service10",
       name: "Medal for 10 Years\nof Distinguished Service",
       issuer: "Serbian Army",
+      // ribbon: purple base with light-blue centre stripe and yellow accent
       ribbon: [
         { color: "#7B3FA0", flex: 3 },
         { color: "#A8D8EA", flex: 1 },
@@ -48,6 +48,7 @@ window.siteContent = {
       id: "jubilee200",
       name: "200th Anniversary\nCommemorative Medal",
       issuer: "Serbian Army",
+      // ribbon: red sides, light-blue centre, yellow thin stripes
       ribbon: [
         { color: "#C0392B", flex: 2 },
         { color: "#F1C40F", flex: 1 },
@@ -60,6 +61,7 @@ window.siteContent = {
       id: "minusca",
       name: "MINUSCA\nService Medal",
       issuer: "United Nations · Secretary-General",
+      // ribbon: UN light-blue sides, dark-blue/white/red/yellow/green centre stripes
       ribbon: [
         { color: "#A8C8E8", flex: 3 },
         { color: "#1A237E", flex: 2 },
@@ -136,6 +138,29 @@ window.siteContent = {
         {icon:"⚗️", title:"Water chemistry", sub:"Ca, Mg, Alk, NO3, PO4"},
         {icon:"💡", title:"LED Spectrum", sub:"Photoperiod & intensity"}
       ]}
+    }
+  ],
+  blog: [
+    {
+      slug: "blog/iso-27001.html",
+      tag: "ISO · Compliance", tagClass: "t-green",
+      title: "How to Prepare for ISO 27001",
+      excerpt: "From gap analysis to audit day — a practical guide based on real certification experience.",
+      date: "March 2026"
+    },
+    {
+      slug: "blog/gcp-security-checklist.html",
+      tag: "GCP · Security", tagClass: "t-teal",
+      title: "GCP Security Checklist",
+      excerpt: "Practical controls for securing your Google Cloud environment — IAM, service accounts, audit logging and more.",
+      date: "March 2026"
+    },
+    {
+      slug: "blog/common-compliance-mistakes.html",
+      tag: "Compliance · Audit", tagClass: "t-amber",
+      title: "Common Compliance Mistakes",
+      excerpt: "Patterns that keep appearing across organizations — and how to fix them before the auditor finds them first.",
+      date: "March 2026"
     }
   ],
   contact: {
