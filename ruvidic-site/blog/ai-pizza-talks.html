@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building Partner Intelligence — Zoran Ruvidić</title>
+  <meta name="description" content="How I built Partner Intelligence — a hybrid AI agent that monitors LinkedIn for business signals and delivers them to Slack for under $2 a month.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-brand">RUVIDIĆ</a>
+    <div class="nav-links">
+      <a href="/#about">About</a>
+      <a href="/#work">Work</a>
+      <a href="/#passions">Interests</a>
+      <a href="/#blog">Blog</a>
+      <a href="/#contact">Contact</a>
+    </div>
+  </nav>
+
+  <article class="blog-article">
+    <div class="blog-inner">
+
+      <header class="blog-header">
+        <div class="blog-meta">
+          <span class="blog-tag t-blue">AI · Automation · Agent</span>
+          <span class="blog-date">June 2026</span>
+        </div>
+        <h1>Building<br><span>Partner Intelligence</span></h1>
+        <p class="blog-lead">A hybrid AI agent that autonomously monitors LinkedIn for business signals and delivers them to Slack, running for under $2 a month, with no backend and no infrastructure. Here is how I built it, and what I learned presenting it at an internal AI talk in June 2026.</p>
+      </header>
+
+      <div class="blog-body">
+
+        <h2>The Problem</h2>
+        <p>Tracking 50 to 60 companies on LinkedIn manually is unsustainable. Someone has to visit each page regularly, read through the noise, and decide whether a post represents a meaningful business signal: a new hire, a leadership change, a product launch, a team expansion. The task is repetitive, easy to deprioritize, and the moment it stops being done consistently, it stops being useful.</p>
+        <p>The question I set out to answer: can this be fully automated without a dedicated backend, without ongoing infrastructure costs, and without violating LinkedIn's terms of service in ways that risk account bans?</p>
+
+        <h2>The Solution: Partner Intelligence</h2>
+        <p>Partner Intelligence is a hybrid agent: a Chrome extension combined with the Claude Haiku API. It autonomously monitors LinkedIn activity for a list of companies and delivers structured business signals to a Slack channel. Once set up, it runs without manual input.</p>
+
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Chrome extension</strong> handles all LinkedIn interaction: scrolling, reading posts, sorting by recent activity. Because LinkedIn's frontend is built on React, standard browser automation fails; the extension simulates real mouse clicks at specific screen coordinates to interact reliably with the interface.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Claude Haiku API</strong> processes the scraped content and identifies business-relevant signals, in both English and German. A single API call handles context analysis for all posts from a given company, replacing an earlier token-heavy keyword-matching approach.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Slack webhook</strong> delivers formatted signal reports directly to a channel: no dashboard to check, no email to ignore.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Direct API calls from the browser</strong> using Anthropic's required headers, eliminating the need for any backend hosting or server infrastructure. The extension makes calls directly, keeping the whole architecture minimal.</div>
+          </div>
+        </div>
+
+        <h2>Why Claude Haiku?</h2>
+        <p>A reasonable question is why Haiku and not a heavier model like Sonnet or Opus. The answer comes down to matching the model to the task. Detecting a business signal in a LinkedIn post is not a complex reasoning problem: it is reading a post, understanding context, and making a binary relevance decision. Haiku handles this accurately at a fraction of the cost.</p>
+        <p>The result: the entire system runs for roughly $2 per month at current usage, covering all API calls across all monitored companies on a 24-hour cycle.</p>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Key insight</span>
+          <span class="blog-tip-text">Matching the model to the task matters more than always reaching for the most capable model. Haiku is the right tool here, not a compromise. Overthinking model selection is a common and expensive mistake when building cost-sensitive automation.</span>
+        </div>
+
+        <h2>LinkedIn Scraping: The Technical Reality</h2>
+        <p>The official LinkedIn API is not viable for this use case. It does not expose the public company post data needed, and working around it violates LinkedIn's terms of service, with real consequences including permanent account locking. Careful browser simulation is the safer alternative.</p>
+        <p>The main technical hurdle was LinkedIn's React-based frontend. Standard click simulation does not work because React intercepts events before they reach the DOM. The workaround was to simulate human mouse movement using actual screen coordinates, making the interaction behave like a real person scrolling a feed rather than an automated script.</p>
+
+        <h2>What I Took Away from the Talk</h2>
+        <p>Presenting Partner Intelligence at an internal AI knowledge-sharing event was a useful exercise. Explaining the architecture to an audience of engineers forces clarity: you quickly find out which design decisions you can actually justify and which were just convenient at the time. The questions afterward, particularly around model choice and the legal boundaries of scraping, sharpened how I think about the trade-offs.</p>
+        <p>The wider takeaway was a recurring theme across very different projects: the best AI applications tend to be narrow, well-scoped, and cost-aware. The impressive work was not the flashiest use of a large model, it was picking the right tool for a specific problem and shipping something that runs reliably in production.</p>
+
+        <h2>What's Next</h2>
+        <p>The roadmap includes CRM integration: automatically detecting when a contact changes jobs or titles, or when an email bounces, and syncing that back without manual effort. The longer-term goal is to expand coverage and turn the agent into a continuous source of clean, current contact and lead intelligence.</p>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Cost reality</span>
+          <span class="blog-tip-text">Total infrastructure cost for Partner Intelligence is about $2 per month. No servers. No databases. No DevOps. Just a browser extension, an API key, and a Slack webhook. Sometimes the simplest architecture is the right one.</span>
+        </div>
+
+      </div>
+
+      <footer class="blog-footer">
+        <a href="/#blog" class="btn-outline">&larr; Back to Blog</a>
+        <a href="/#contact" class="btn-filled">Get in touch &rarr;</a>
+      </footer>
+
+    </div>
+  </article>
+
+  <footer>
+    <div class="footer-brand">RUVIDIĆ · © 2026</div>
+    <div class="footer-note">ruvidic.com · Hosted on Vercel</div>
+  </footer>
+
+</body>
+</html>
