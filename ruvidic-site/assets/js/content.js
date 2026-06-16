@@ -35,7 +35,6 @@ window.siteContent = {
       id: "service10",
       name: "Medal for 10 Years\nof Distinguished Service",
       issuer: "Serbian Army",
-      // ribbon: purple base with light-blue centre stripe and yellow accent
       ribbon: [
         { color: "#7B3FA0", flex: 3 },
         { color: "#A8D8EA", flex: 1 },
@@ -48,7 +47,6 @@ window.siteContent = {
       id: "jubilee200",
       name: "200th Anniversary\nCommemorative Medal",
       issuer: "Serbian Army",
-      // ribbon: red sides, light-blue centre, yellow thin stripes
       ribbon: [
         { color: "#C0392B", flex: 2 },
         { color: "#F1C40F", flex: 1 },
@@ -61,7 +59,6 @@ window.siteContent = {
       id: "minusca",
       name: "MINUSCA\nService Medal",
       issuer: "United Nations · Secretary-General",
-      // ribbon: UN light-blue sides, dark-blue/white/red/yellow/green centre stripes
       ribbon: [
         { color: "#A8C8E8", flex: 3 },
         { color: "#1A237E", flex: 2 },
@@ -163,6 +160,13 @@ window.siteContent = {
     }
   ],
   blog: [
+    {
+      slug: "blog/ai-pizza-talks",
+      tag: "AI · Automation · Agent", tagClass: "t-blue",
+      title: "Building Partner Intelligence",
+      excerpt: "A hybrid AI agent that monitors LinkedIn for business signals and delivers them to Slack, for under $2 a month. No backend, no infrastructure.",
+      date: "June 2026"
+    },
     {
       slug: "blog/iso-27001",
       tag: "ISO · Compliance", tagClass: "t-green",
