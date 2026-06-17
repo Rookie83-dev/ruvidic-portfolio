@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A 24/7 Livestreamed Reef with a Raspberry Pi Brain — Zoran Ruvidić</title>
+  <meta name="description" content="Building a smart aquarium: a 24/7 YouTube livestream of a nano reef plus a Raspberry Pi sensor stack feeding live water data into Grafana.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-brand">RUVIDIĆ</a>
+    <div class="nav-links">
+      <a href="/#about">About</a>
+      <a href="/#work">Work</a>
+      <a href="/#passions">Interests</a>
+      <a href="/#blog">Blog</a>
+      <a href="/#contact">Contact</a>
+    </div>
+  </nav>
+
+  <article class="blog-article">
+    <div class="blog-inner">
+
+      <header class="blog-header">
+        <div class="blog-meta">
+          <span class="blog-tag t-blue">Raspberry Pi · IoT · Reef</span>
+          <span class="blog-date">June 2026</span>
+        </div>
+        <h1>A 24/7 Livestreamed Reef<br><span>with a Raspberry Pi Brain</span></h1>
+        <p class="blog-lead">Two of my interests collided on this one: marine reef keeping and tinkering with Linux. The result is a bare bottom nano reef that streams live to YouTube around the clock, with a Raspberry Pi quietly logging water parameters into a Grafana dashboard. Here is how the home lab came together.</p>
+      </header>
+
+      <div class="blog-body">
+
+        <h2>The Idea</h2>
+        <p>I run a small bare bottom nano cube, a 40x40x40 cm tank with a floating reef aquascape built on acrylic supports. Like any reef tank, it is a living system where small changes cascade: temperature drift, parameter swings, equipment failures. I wanted two things. First, to be able to watch the tank from anywhere, at any time. Second, to have real, logged data on what the water is actually doing rather than relying on spot checks with a test kit.</p>
+        <p>So the project split naturally into two halves: a 24/7 video livestream, and a sensor monitoring stack. Two separate machines, two separate jobs.</p>
+
+        <h2>Part One: The Livestream</h2>
+        <p>The camera is a Wyze Cam v2 pointed at the tank. The challenge with these cameras is getting a clean, reliable video feed off them without depending on the manufacturer's cloud app. The answer was a small Linux box running docker-wyze-bridge, which exposes the camera as a standard RTSP stream that anything can consume.</p>
+
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>docker-wyze-bridge</strong> running in Docker pulls the camera feed and republishes it as RTSP, giving a clean local stream URL on the LAN.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>ffmpeg</strong> pulls that RTSP stream and pushes it to YouTube over RTMP, with a keyframe interval tuned for streaming and a silent audio track, which YouTube requires for a valid live broadcast.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>systemd service</strong> keeps the whole pipeline alive with auto-restart, so the stream comes back on its own after a reboot or a hiccup, with an ntfy alert if something goes wrong.</div>
+          </div>
+        </div>
+
+        <h2>The Networking Lesson</h2>
+        <p>The most interesting problem of the whole build was a networking one. Running the bridge on Docker's default bridge network, the camera connection kept timing out with an IOTC_ER_TIMEOUT error on local connections, while connections relayed through the manufacturer's servers worked fine.</p>
+        <p>The cause: the camera uses a peer-to-peer handshake to establish a direct LAN connection, and that handshake could not complete back through Docker's NAT layer. Relay traffic, which is outbound only, had no such problem, which is exactly why it masked the issue at first.</p>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">The fix</span>
+          <span class="blog-tip-text">Running the container with host networking puts it directly on the LAN, so the peer-to-peer handshake completes and the local connection is stable. The difference between a stream that works for a day and one that works for months often comes down to a detail like this.</span>
+        </div>
+
+        <p>One smaller but equally annoying lesson: a multi-line shell command with backslash line continuations was silently failing because of trailing spaces after the backslashes. Collapsing it to a single line solved it instantly. Hours can disappear into invisible whitespace.</p>
+
+        <h2>Part Two: The Raspberry Pi Sensor Stack</h2>
+        <p>The video answers "what does it look like right now". The sensors answer "what is the water actually doing over time". For this I used a Raspberry Pi running a headless Linux setup, dedicated entirely to reading sensors and logging data.</p>
+
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>1-Wire and I2C</strong> enabled at the OS level, ready for temperature probes and other digital sensors. A quick check of the device tree and an I2C scan confirmed both interfaces were live before any sensor was even attached.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>InfluxDB 2</strong> as a time-series database, deployed via Docker Compose, storing readings in a dedicated bucket with infinite retention so the full history is always there.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Grafana</strong> for visualization, connecting to InfluxDB over the Docker network and rendering live graphs of the logged parameters.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Python</strong> in a virtual environment, using the InfluxDB client library to read the sensors and push measurements on a schedule.</div>
+          </div>
+        </div>
+
+        <p>Before any hardware arrived, I validated the entire pipeline with a small Python script pushing simulated temperature data every few seconds. Watching that fake data appear as a live line on a Grafana panel confirmed the full chain, from script to database to dashboard, was working. When the real probes arrive, only the data source changes; the plumbing is already proven.</p>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Why test with fake data first</span>
+          <span class="blog-tip-text">Standing up the database, dashboard, and logging script against simulated data means that when the real sensors arrive, you are debugging one thing (the sensor reading) instead of five things at once. It is the same principle as building any system in testable stages rather than wiring everything together and hoping.</span>
+        </div>
+
+        <h2>The Crossover</h2>
+        <p>What I enjoy most about this project is that it sits exactly between two hobbies that look unrelated. Reef keeping is patience, chemistry, and observation. Linux tinkering is networking, containers, and automation. But the mindset is identical: a reef tank and a small server stack are both systems where monitoring matters, where small problems compound if ignored, and where the satisfying outcome is something that just quietly runs.</p>
+        <p>The same instincts that make me test a pipeline in stages, watch the logs, and set up an alert before walking away are the ones that keep a reef tank alive. The hardware is different. The discipline is the same.</p>
+
+        <h2>What's Next</h2>
+        <p>The immediate next step is wiring up the real temperature probe and expanding to other sensors over time. Longer term, the two halves can talk to each other: overlaying live parameter readings onto the video stream, or triggering an alert that is visible to anyone watching. For now, the tank streams, the data logs, and both run on their own.</p>
+
+      </div>
+
+      <footer class="blog-footer">
+        <a href="/#blog" class="btn-outline">&larr; Back to Blog</a>
+        <a href="/#contact" class="btn-filled">Get in touch &rarr;</a>
+      </footer>
+
+    </div>
+  </article>
+
+  <footer>
+    <div class="footer-brand">RUVIDIĆ · © 2026</div>
+    <div class="footer-note">ruvidic.com · Hosted on Vercel</div>
+  </footer>
+
+</body>
+</html>
