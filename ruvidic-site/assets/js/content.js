@@ -161,6 +161,13 @@ window.siteContent = {
   ],
   blog: [
     {
+      slug: "blog/reef-monitoring-livestream",
+      tag: "Raspberry Pi · IoT · Reef", tagClass: "t-blue",
+      title: "A 24/7 Livestreamed Reef with a Raspberry Pi Brain",
+      excerpt: "Where reef keeping meets Linux tinkering: a nano tank streaming live to YouTube around the clock, with a Raspberry Pi logging water data into Grafana.",
+      date: "June 2026"
+    },
+    {
       slug: "blog/ai-pizza-talks",
       tag: "AI · Automation · Agent", tagClass: "t-blue",
       title: "Building Partner Intelligence",
