@@ -161,6 +161,13 @@ window.siteContent = {
   ],
   blog: [
     {
+      slug: "blog/security-awareness-app",
+      tag: "Security · OSINT · Training", tagClass: "t-green",
+      title: "Building a Security Awareness App with OSINT Challenges",
+      excerpt: "An interactive training app with visual OSINT spotting challenges, automated scoring, and clean ISO 27001 evidence logging as a byproduct.",
+      date: "July 2026"
+    },
+    {
       slug: "blog/reef-monitoring-livestream",
       tag: "Raspberry Pi · IoT · Reef", tagClass: "t-blue",
       title: "A 24/7 Livestreamed Reef with a Raspberry Pi Brain",
