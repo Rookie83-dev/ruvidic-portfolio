@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building a Security Awareness Training App with OSINT Challenges — Zoran Ruvidić</title>
+  <meta name="description" content="How I built Aegis, a security awareness training app with OSINT spotting challenges, automated scoring, and ISO 27001 evidence logging.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-brand">RUVIDIĆ</a>
+    <div class="nav-links">
+      <a href="/#about">About</a>
+      <a href="/#work">Work</a>
+      <a href="/#passions">Interests</a>
+      <a href="/#blog">Blog</a>
+      <a href="/#contact">Contact</a>
+    </div>
+  </nav>
+
+  <article class="blog-article">
+    <div class="blog-inner">
+
+      <header class="blog-header">
+        <div class="blog-meta">
+          <span class="blog-tag t-green">Security · OSINT · Training</span>
+          <span class="blog-date">July 2026</span>
+        </div>
+        <h1>Building a Security Awareness App<br><span>with OSINT Challenges</span></h1>
+        <p class="blog-lead">Security awareness training is usually a boring annual video that everyone clicks through without reading. I wanted something different: a short, interactive quiz with real OSINT spotting challenges that also produces clean audit evidence. This is how I built Aegis.</p>
+      </header>
+
+      <div class="blog-body">
+
+        <h2>The Problem with Awareness Training</h2>
+        <p>Most security awareness training fails for the same reason: it is passive. People watch a slideshow, click next until it ends, and retain almost nothing. Meanwhile ISO 27001 control A.6.3 requires evidence that staff actually receive and engage with security awareness training. The typical solution satisfies the auditor on paper while doing very little to change behavior.</p>
+        <p>I wanted to solve both sides at once: make the training genuinely engaging, and produce clean, automatic evidence of completion that maps directly to the compliance requirement.</p>
+
+        <h2>What Aegis Does</h2>
+        <p>Aegis is a lightweight web app that runs a training round of ten questions. Each round mixes two visual OSINT scenes with eight practical multiple-choice questions, drawn at random with no repeats and with the answer order shuffled every time. The pass mark is 80%.</p>
+
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Visual OSINT scenes</strong> ask the user to spot what is wrong or revealing in an image: information leaking in the background of a photo, a suspicious detail in a message, the kind of thing an attacker would notice first.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Practical multiple-choice questions</strong> cover everyday security habits and light ISO 27001 knowledge, pulled from a bank of over a hundred items so repeat takers keep seeing fresh content.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Every question has a short explanation</strong> shown after answering, so the training teaches rather than just tests. A wrong answer is a learning moment, not just a lost point.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Pass or retry logic</strong> means a passing score can be saved as evidence, while a failing score only offers a retry with feedback on the topics to review.</div>
+          </div>
+        </div>
+
+        <h2>The Compliance Angle</h2>
+        <p>This is where the app earns its place beyond being a fun quiz. When a user passes, the result is written automatically to a Google Sheet that serves as ISO 27001 evidence for the awareness training control. Each row records who took it, when, the score, the result, and which topics they should review.</p>
+        <p>Crucially, only passing results at or above the 80% threshold are written, and that rule is enforced in two places: in the app's own backend and again in the script that writes to the sheet. Defense in depth, even for something this small. The result is a living, timestamped training register that an auditor can review at any time, generated with zero manual effort.</p>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Why this matters</span>
+          <span class="blog-tip-text">The best compliance tooling is the kind where the evidence is a natural byproduct of a process people actually want to use. Nobody has to remember to log anything. The act of completing the training is the act of creating the record.</span>
+        </div>
+
+        <h2>The Stack</h2>
+        <p>The whole thing is deliberately lightweight. The frontend is React built with Vite, styled with a small design-token object rather than a heavy CSS framework. No local storage, no client-side database, no unnecessary dependencies.</p>
+
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>React + Vite</strong> for a fast, self-contained single-page app with the OSINT scene engine, scoring logic, and theming all in one place.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Serverless function</strong> receives the result, re-checks the pass mark, and forwards valid results onward, so the pass threshold is never trusted from the client alone.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Google Apps Script web app</strong> acts as the write endpoint to the sheet, running under the owner account so the hosting platform never needs any Google permissions of its own.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Optional fallback store</strong> using a hosted Redis, used only if the sheet endpoint is unavailable, so a passing result is never silently lost.</div>
+          </div>
+        </div>
+
+        <h2>Architecture Decisions Worth Noting</h2>
+        <p>A few choices shaped the design. Keeping the pass-mark check on the server side, not just in the browser, means the threshold cannot be bypassed by editing client code. Having the Google Apps Script run under the owner account means the hosting platform holds no Google credentials at all, which keeps the security surface small. And separating the question bank into its own file means content can grow over time without touching the app logic.</p>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Design principle</span>
+          <span class="blog-tip-text">A security tool should not itself be a security liability. Every integration point was chosen to minimize the credentials and permissions the system holds. The app writes evidence without ever having write access to anything sensitive on its own.</span>
+        </div>
+
+        <h2>What's Next</h2>
+        <p>The roadmap is about depth and realism. The visual scene engine already supports images with clickable hotspot regions, so the next step is replacing illustrative scenes with real phishing screenshots and realistic workspace photos, making the OSINT challenges sharper. Beyond that: growing the question bank further so frequent takers never run out of new material, and adding simple reporting so pass rates across the team can be seen at a glance.</p>
+        <p>The broader lesson from building Aegis is that compliance and engagement are not opposites. A training tool people actually enjoy using produces better security behavior and better audit evidence at the same time. You just have to build it so that the useful record falls out of the process naturally.</p>
+
+      </div>
+
+      <footer class="blog-footer">
+        <a href="/#blog" class="btn-outline">&larr; Back to Blog</a>
+        <a href="/#contact" class="btn-filled">Get in touch &rarr;</a>
+      </footer>
+
+    </div>
+  </article>
+
+  <footer>
+    <div class="footer-brand">RUVIDIĆ · © 2026</div>
+    <div class="footer-note">ruvidic.com · Hosted on Vercel</div>
+  </footer>
+
+</body>
+</html>
