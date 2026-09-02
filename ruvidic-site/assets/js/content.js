@@ -161,6 +161,13 @@ window.siteContent = {
   ],
   blog: [
     {
+      slug: "blog/invoice-automation-bexio",
+      tag: "Automation · Accounting · API", tagClass: "t-green",
+      title: "From Manual Entry to API",
+      excerpt: "Connecting a Google Sheets invoicing tool to an accounting system over its API, and why the design lessons mattered more than the code.",
+      date: "September 2026"
+    },
+    {
       slug: "blog/security-awareness-app",
       tag: "Security · OSINT · Training", tagClass: "t-green",
       title: "Building a Security Awareness App with OSINT Challenges",
