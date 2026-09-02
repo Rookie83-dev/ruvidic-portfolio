@@ -161,6 +161,13 @@ window.siteContent = {
   ],
   blog: [
     {
+      slug: "blog/modernizing-an-old-elevator",
+      tag: "Kiosk · PWA · Facility", tagClass: "t-blue",
+      title: "Modernizing an Old Elevator",
+      excerpt: "A tablet in kiosk mode, an offline-first PWA with weather and live airport departures, and music that survives WiFi dead zones. All from one 220V socket on a cabin roof.",
+      date: "September 2026"
+    },
+    {
       slug: "blog/invoice-automation-bexio",
       tag: "Automation · Accounting · API", tagClass: "t-green",
       title: "From Manual Entry to API",
