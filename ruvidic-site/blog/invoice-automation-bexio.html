@@ -3,20 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>From Manual Entry to API: Automating Invoice Posting · Zoran Ruvidić</title>
+  <title>From Manual Entry to API: Automating Invoice Posting — Zoran Ruvidić</title>
   <meta name="description" content="How I connected a Google Sheets invoicing tool to an accounting system over its API, and the design lessons that mattered more than the code.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/styles.css">
   <link rel="stylesheet" href="/assets/css/blog.css">
 </head>
 <body>
-
-  <nav class="blog-nav">
-    <div class="blog-nav-inner">
-      <a href="/" class="nav-logo">ZR</a>
-      <a href="/#blog" class="nav-back">← All posts</a>
+  <nav>
+    <a href="/" class="nav-brand">RUVIDIĆ</a>
+    <div class="nav-links">
+      <a href="/#about">About</a>
+      <a href="/#work">Work</a>
+      <a href="/#passions">Interests</a>
+      <a href="/#blog">Blog</a>
+      <a href="/#contact">Contact</a>
     </div>
   </nav>
 
@@ -28,30 +32,30 @@
           <span class="blog-tag t-green">Automation · Accounting · API</span>
           <span class="blog-date">September 2026</span>
         </div>
-        <h1>From manual entry to API: <span>automating invoice posting</span></h1>
+        <h1>From Manual Entry to API:<br><span>Automating Invoice Posting</span></h1>
         <p class="blog-lead">A finance colleague was typing every outgoing invoice into our accounting system by hand. We already generated those invoices from a Google Sheet. This is how I closed the gap with the accounting system's API, and why the hardest parts were not the code.</p>
       </header>
 
       <div class="blog-body">
 
-        <h2>The starting point</h2>
+        <h2>The Starting Point</h2>
         <p>We had a Google Sheets tool that already did a lot. It read a Transactions tab, built a branded PDF invoice per partner, logged the result, and emailed the client. The one manual step left was the accounting system. Every invoice that left the building also had to be typed, line by line, into Bexio for bookkeeping. Same numbers, entered twice, once by a machine and once by a person.</p>
         <p>That is exactly the kind of task worth automating: repetitive, rule based, and already sitting on top of clean structured data. The accounting system had a REST API. The invoicing tool was Google Apps Script. The two just were not talking.</p>
 
-        <h2>The obvious plan, and why I changed it</h2>
+        <h2>The Obvious Plan, and Why I Changed It</h2>
         <p>My first instinct was a separate service: a small script that reads an export, maps it, and posts to the API on a schedule. It would have worked. But the invoicing logic already lived inside the Apps Script project, and the data was already in memory at the moment each invoice was built. A separate service would mean new infrastructure, a second copy of the mapping, and a sync problem to babysit.</p>
-        <p>So the integration became one more step in the pipeline that already existed. No new server, no cron job, no second source of truth. The posting call reads the same rows the PDF was built from and sends them straight to the API. Less moving parts is almost always the right answer.</p>
+        <p>So the integration became one more step in the pipeline that already existed. No new server, no cron job, no second source of truth. The posting call reads the same rows the PDF was built from and sends them straight to the API. Fewer moving parts is almost always the right answer.</p>
 
         <div class="blog-tip">
           <span class="blog-tip-label">Lesson</span>
           <span class="blog-tip-text">Before you build a new system next to an old one, check whether the old one is already holding everything you need. The cheapest integration is the one that reuses data that is already in hand.</span>
         </div>
 
-        <h2>Mapping is a business decision, not a coding one</h2>
+        <h2>Mapping Is a Business Decision, Not a Coding One</h2>
         <p>Every line on an invoice has to land on the correct revenue account. Development work on one account, management fee on another, travel and hardware on a third, and each of those splits again by whether the partner is domestic or foreign. That mapping is not something an engineer should invent. It belongs to the person who does the books.</p>
         <p>The accounting colleague built the full mapping in a spreadsheet. My job was to turn her rules into logic the API call could follow: group the lines by account, sum each group, and send one clean position per account with a fixed label. Names of individual people and free text descriptions never reach the accounting system. They stay on the client PDF, where they belong. The books get a tidy, auditable summary.</p>
 
-        <h2>Idempotency, or how not to create the same invoice twice</h2>
+        <h2>Idempotency, or How Not to Create the Same Invoice Twice</h2>
         <p>The scary part of any write integration is duplicates. Run the job twice and you do not want two copies of the same invoice in the books. I leaned on a reference field the API exposes for exactly this: each invoice carries its own number as a stable key. Before creating anything, the script asks the accounting system whether an invoice with that key already exists. If it does, it skips and moves on. The invoice log in the sheet also records the returned ID, so a second glance confirms what already went through.</p>
         <p>This matters more than it sounds, because the log gets cleared and rebuilt every cycle. The only reliable guard against duplicates is one that lives on the accounting side, keyed to something that never changes.</p>
 
@@ -60,10 +64,10 @@
           <span class="blog-tip-text">Any integration that writes to a system of record needs an idempotency key the target system can see. A checkmark in your own sheet is not enough, because your sheet can be reset. The key has to live where the data lands.</span>
         </div>
 
-        <h2>The APIs never sit where you expect</h2>
+        <h2>The APIs Never Sit Where You Expect</h2>
         <p>A dull but very real part of the work: the accounting API mixes versions. Accounts sat on one path, taxes and currencies on another, and units were on a third path under a slightly different name. Nothing was wrong with the credentials. The endpoints simply lived where the vendor put them, not where the pattern suggested. A short diagnostic function that pings each lookup and prints what it finds saved a lot of guessing. When you meet a new API, build the map of what actually responds before you build anything on top of it.</p>
 
-        <h2>The lesson that changed the whole design</h2>
+        <h2>The Lesson That Changed the Whole Design</h2>
         <p>I first wired the posting to happen automatically at the end of invoice generation. Generate the invoice, post it. Clean, in my head.</p>
         <p>Then the person who actually does the work told me how she works. She generates an invoice, checks the amounts, fixes something, generates again, and repeats until it is right. Sometimes many times for one invoice. If posting rides on generation, the first half correct version lands in the books, and later fixes get skipped because the invoice already exists. That is worse than doing nothing.</p>
         <p>Her point was simple and correct: the invoice should reach the accounting system at the moment she confirms it is right, not on every trial run. So the posting moved off generation and onto a separate action she triggers by hand, once, when the invoice is final. The tool now waits for the human, instead of racing ahead of them.</p>
@@ -73,19 +77,19 @@
           <span class="blog-tip-text">Automate the step, not the judgement. The person closest to the work usually knows where the trigger belongs better than the person writing the code. Ask them how they actually work before you decide when your automation fires.</span>
         </div>
 
-        <h2>Where the mapping should really live</h2>
+        <h2>Where the Mapping Should Really Live</h2>
         <p>One open thread is honest to leave open. Right now the rule that sends a line to the correct account still lives partly in code, matched on keywords. It works, but it is fragile: rename a service category and a line can silently miss its rule. And it hides the logic from the one person who should own it.</p>
         <p>The next step is to lift that mapping out of the code and into the catalog the accounting colleague already maintains, as a column she fills in. New service, new row, no developer needed. The measure of a good internal tool is whether it keeps working after the person who built it has moved on. Until the mapping lives in the sheet, this one does not fully pass that test yet. That is the work still to do.</p>
 
-        <h2>What shipped</h2>
+        <h2>What Shipped</h2>
         <p>An invoice that used to be typed by hand now posts to the accounting system as a reviewed draft with one click, on the correct accounts, with the correct tax treatment, and with a guard against duplicates. Nothing is issued automatically. A person still confirms every one. The machine just stopped asking a human to copy numbers it already had.</p>
         <p>The interesting part was never the API. It was learning where a human belongs in the loop, and building the tool around that instead of around my first idea of it.</p>
 
       </div>
 
       <footer class="blog-footer">
-        <a href="/#blog" class="btn-outline">← Back to Blog</a>
-        <a href="/#contact" class="btn-filled">Get in touch →</a>
+        <a href="/#blog" class="btn-outline">&larr; Back to Blog</a>
+        <a href="/#contact" class="btn-filled">Get in touch &rarr;</a>
       </footer>
 
     </div>
