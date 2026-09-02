@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modernizing an Old Elevator · Zoran Ruvidić</title>
+  <meta name="description" content="Turning a plain office elevator into an info display: a tablet in kiosk mode, an offline-first PWA with weather and live airport departures, and music that survives WiFi dead zones.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-brand">RUVIDIĆ</a>
+    <div class="nav-links">
+      <a href="/#about">About</a>
+      <a href="/#work">Work</a>
+      <a href="/#passions">Interests</a>
+      <a href="/#blog">Blog</a>
+      <a href="/#contact">Contact</a>
+    </div>
+  </nav>
+
+  <article class="blog-article">
+    <div class="blog-inner">
+
+      <header class="blog-header">
+        <div class="blog-meta">
+          <span class="blog-tag t-blue">Kiosk · PWA · Facility</span>
+          <span class="blog-date">September 2026</span>
+        </div>
+        <h1>Modernizing<br><span>an Old Elevator</span></h1>
+        <p class="blog-lead">Our office elevator had no music, no display, nothing but a bare 220V socket on top of the cabin. Previous fixes involved an mp3 player wired to a small amplifier. This time I wanted more: a tablet playing music while showing the weather and live airport departures. The catch? An elevator is a moving metal box with almost no WiFi, and the screen has to survive curious fingers 24/7.</p>
+      </header>
+
+      <div class="blog-body">
+
+        <h2>The Constraints Design the System</h2>
+        <p>Three facts shaped every decision. First, the cabin travels through floors with no WiFi coverage, so the display cannot depend on a live connection. Second, nobody will ever plug a keyboard into it, so everything must recover on its own: after a power cut, after a network drop, after an OS hiccup. Third, passengers will tap the screen, so the interface has to ignore them completely while still letting me in for service.</p>
+        <p>Once you accept those constraints, the architecture almost writes itself: a web page that treats the network as optional, a tablet that treats the page as its entire world, and a hidden service entrance for exactly one person.</p>
+
+        <h2>An Offline-First Page</h2>
+        <p>The display is a single web page hosted on Vercel. A service worker caches the whole page and, more importantly, the entire music mix (a single ~90 MB mp3) locally on the tablet. After the first load, the music never touches the network again. The page loops the file with a plain audio element, and the service worker even answers HTTP range requests from cache so seeking works offline.</p>
+
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Weather</strong> comes from the Open-Meteo API: current conditions, daily range, and the next six hours, refreshed through a small serverless endpoint.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Flights</strong> come from an aviation data API showing live departures and arrivals for Belgrade airport, styled like a real airport board with amber for delays and red for cancellations.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>A Redis cache</strong> (Upstash) sits between the page and the flight API, so the tablet can poll every minute while the actual API is called only a handful of times per day, staying comfortably inside a free quota.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Failure is silent.</strong> If a fetch fails, nothing happens. The board keeps the last known data, stores it in localStorage for reboots, and shows a quiet "Updated 14:32" timestamp instead of an error.</div>
+          </div>
+        </div>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">The key mindset</span>
+          <span class="blog-tip-text">Do not fight the WiFi gap, design around it. Flight schedules and weather forecasts are cached data by nature; nobody in an elevator needs a second-by-second feed. Treat connectivity as a periodic sync, not a requirement, and the dead zones stop mattering.</span>
+        </div>
+
+        <h2>Locking Down the Tablet</h2>
+        <p>The hardware is an Android tablet on Fully Kiosk Browser. Kiosk mode hides the status bar and navigation, launches on boot, keeps the screen awake, and locks everything behind a PIN. On top of that, the page itself sets pointer-events to none on all content, so even a tap that somehow lands does nothing: no pause, no zoom, no scroll.</p>
+        <p>My service entrance is invisible: a long press on a specific corner of the screen, followed by a PIN pad, opens a small panel with volume control, mute, data refresh, and cache management. Passengers see a screen that simply does not react. I see a fully manageable device, including a remote admin interface reachable over the LAN so most maintenance never requires opening the cabin ceiling.</p>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Updates without touching the lift</span>
+          <span class="blog-tip-text">The page checks a version file every few minutes but applies new versions only at 3 AM, when the building is empty and the elevator is parked somewhere with signal. Content changes ship through a git push; the tablet updates itself overnight.</span>
+        </div>
+
+        <h2>Small Details That Earn Their Keep</h2>
+        <p>A night mode dims the screen and pauses the music outside working hours, which the LCD panel and the neighbors both appreciate. The music volume is fixed in software so nobody can crank it. And the mix itself is licensed background music rather than a random download, because a facility lead who handles compliance for a living should probably not install a copyright problem in his own elevator.</p>
+
+        <h2>What This Really Was</h2>
+        <p>On paper this is a toy project: music and a weather screen in a lift. In practice it exercised the same muscles as any production system: offline-first design, cache layers, API quota budgeting, kiosk hardening, unattended recovery, and remote operations. The elevator just happens to be the least forgiving deployment environment I have ever shipped to. No SSH, no screen sharing, and your users are trapped in a box with your bugs, four floors at a time.</p>
+
+      </div>
+
+      <footer class="blog-footer">
+        <a href="/#blog" class="btn-outline">&larr; Back to Blog</a>
+        <a href="/#contact" class="btn-filled">Get in touch &rarr;</a>
+      </footer>
+
+    </div>
+  </article>
+
+  <footer>
+    <div class="footer-brand">RUVIDIĆ · © 2026</div>
+    <div class="footer-note">ruvidic.com · Hosted on Vercel</div>
+  </footer>
+
+</body>
+</html>
