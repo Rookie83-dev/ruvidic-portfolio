@@ -88,7 +88,7 @@ window.siteContent = {
       status: {label:"Security", class:"t-teal"}
     },
     {
-      title: "ISO Triple Certification: 9001 / 27001 / 27701",
+      title: "ISO Triple Certification: 9001​ / 27001​ / 27701​",
       problem: "Company needed to achieve ISO 27001, 27701, and 9001 certification with no existing ISMS framework, no documented processes, and a tight deadline.",
       action: "Led the full certification process: gap analysis across all three standards, built the ISMS from scratch, authored all mandatory policies and procedures, conducted internal audits, managed the external audit preparation.",
       result: "Successfully certified across all three standards in a single audit cycle. Zero major non-conformities at the external audit.",
