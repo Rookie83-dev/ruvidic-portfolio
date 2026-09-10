@@ -92,6 +92,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .proof-text{font-family:var(--slab);font-size:14px;color:var(--muted);line-height:1.8;font-weight:300;margin:0}
 .proof-result-text{color:#9ecfb8;font-weight:400}
 .project-card h3{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:.03em;text-transform:none;margin-bottom:0;line-height:1.1}
+.project-card h3 a{color:inherit !important;text-decoration:none !important;pointer-events:none}
 .project-card p{font-family:var(--slab);font-size:13px;color:var(--muted);line-height:1.8;font-weight:300}
 .status-tag{white-space:nowrap;height:fit-content}
 .cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:left}
@@ -214,6 +215,7 @@ footer{max-width:var(--max);margin:0 auto;padding:32px 32px;display:flex;align-i
   .nav-links a{font-size:9px}
 }
 @media(max-width:700px){
+  .hero-scroll{display:none}
   nav{padding:0 18px}
   .nav-links{gap:10px}
   .nav-links a{font-size:9px;letter-spacing:.06em}
