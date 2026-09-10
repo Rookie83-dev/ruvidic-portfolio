@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automating MikroTik Config Backups to the Cloud — Zoran Ruvidić</title>
+  <meta name="description" content="How to set up automated, scheduled MikroTik RouterOS configuration backups delivered off-device by email, and the SMTP gotchas that trip everyone up.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-brand">RUVIDIĆ</a>
+    <div class="nav-links">
+      <a href="/#about">About</a>
+      <a href="/#work">Work</a>
+      <a href="/#passions">Interests</a>
+      <a href="/#blog">Blog</a>
+      <a href="/#contact">Contact</a>
+    </div>
+  </nav>
+
+  <article class="blog-article">
+    <div class="blog-inner">
+
+      <header class="blog-header">
+        <div class="blog-meta">
+          <span class="blog-tag t-teal">MikroTik · Networking · Backup</span>
+          <span class="blog-date">July 2026</span>
+        </div>
+        <h1>Automating MikroTik Backups<br><span>to the Cloud</span></h1>
+        <p class="blog-lead">A router config backup that lives only on the router is not a backup. Here is how I set up automated, scheduled MikroTik backups delivered off-device by email, and the SMTP authentication gotchas that trip almost everyone up along the way.</p>
+      </header>
+
+      <div class="blog-body">
+
+        <h2>Why Off-Device Backups Matter</h2>
+        <p>A MikroTik router holds a surprising amount of hard-won configuration: firewall rules, NAT, VPN identities, DHCP pools, interface lists, wireless setup. Rebuilding all of that from memory after a failure is painful and error-prone. RouterOS makes it easy to save a backup, but by default that backup sits on the router's own storage. If the device dies, gets stolen, or has its storage corrupted, the backup dies with it.</p>
+        <p>The goal is simple: a scheduled job that creates a fresh backup and automatically sends it somewhere off the device, so a current copy always exists independently of the hardware. Email is a clean transport for this, and from an inbox the file can be archived to cloud storage automatically.</p>
+
+        <h2>Two Kinds of Backup, and Why You Want Both</h2>
+        <p>RouterOS offers two different backup formats, and they serve different purposes. Using only one leaves a gap.</p>
+
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Binary backup</strong> is a full, exact snapshot of the system, including sensitive data. It restores the device to an identical state but only onto the same model and often the same RouterOS version. It is your fast, full-restore option.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Text export</strong> is a human-readable script of the configuration. It is portable across versions and models, easy to read, easy to diff, and lets you cherry-pick parts of a config to reapply. It is your portable, auditable option.</div>
+          </div>
+        </div>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Rule of thumb</span>
+          <span class="blog-tip-text">Keep both. The binary backup gets you running again fastest on identical hardware. The text export saves you when you are restoring to a different model, a newer RouterOS, or when you just need to read what a rule actually does. They cost almost nothing to store, so there is no reason to choose.</span>
+        </div>
+
+        <h2>The Setup</h2>
+        <p>The building blocks are all native to RouterOS: a script that creates the backup and export files, the email tool to send them, and the scheduler to run it all on a cycle. No external software required.</p>
+
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>A script</strong> that runs the backup and export commands, naming the files with a timestamp so each one is distinct, then attaches and emails them.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>The email tool</strong> configured with an SMTP server, port, TLS mode, sender, and credentials, so the router can send mail on its own.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>The scheduler</strong> running the script on an interval, weekly or daily depending on how often the config changes, so backups happen without anyone remembering to do them.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>An inbox rule</strong> on the receiving side that files these emails and pushes the attachments into cloud storage automatically, so the archive builds itself.</div>
+          </div>
+        </div>
+
+        <h2>Where It Actually Goes Wrong: SMTP</h2>
+        <p>The backup and scheduling parts are straightforward. The part that eats an afternoon is getting the router to authenticate to a mail provider. This is where I lost the most time, so here are the specific traps in the order they tend to bite.</p>
+
+        <h2>1. App Passwords, Not Your Real Password</h2>
+        <p>Major mail providers no longer accept your normal account password from a device like a router. You have to generate a dedicated app password and use that. If you are getting an AUTH failed error, this is the first thing to check. Generate the app password, enter all of it with no spaces, and delete any old unused ones so they are not left hanging as a security loose end.</p>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Debugging tip</span>
+          <span class="blog-tip-text">When authentication fails, check the mail provider's recent security activity page. If you see a blocked sign-in attempt there, your credentials are reaching the provider and being rejected, so the problem is the account or the app password. If you see nothing at all, the router is not even completing the connection, so the problem is the SMTP settings or TLS. That one check tells you which half of the problem to focus on.</span>
+        </div>
+
+        <h2>2. The From Address Must Match the Account</h2>
+        <p>This one is subtle and cost me a real chunk of time. If you authenticate as one address but set the "from" field to a different address, some providers reject the send at authentication, especially on personal accounts. The fix is to set the from address to exactly the same account you are authenticating with. Once the sender and the authenticated user match, the send goes through.</p>
+
+        <h2>3. Enter the Password in the GUI, Not the Terminal</h2>
+        <p>Pasting a password into the RouterOS terminal can silently mangle it, dropping or altering characters. When credentials look correct but authentication keeps failing, open the email settings in the GUI and type the app password in by hand, all sixteen characters, then apply. More than once this alone was the fix.</p>
+
+        <h2>4. Check the Port and TLS Mode</h2>
+        <p>The server, port, and TLS mode have to line up with what the provider expects. A mismatch here means the connection either never establishes or gets refused. Modern RouterOS handles this well once set correctly, and a fresh version rules out the old version-specific SMTP quirks that used to plague this setup. If you are on an ancient RouterOS, upgrade first and eliminate that variable entirely.</p>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">The meta-lesson</span>
+          <span class="blog-tip-text">Two different accounts failing with the identical error is a strong signal the problem is not the credentials but the path: the router config, the from address, or TLS. When you change the variable and the symptom stays the same, you are looking in the wrong place. Isolate one thing at a time.</span>
+        </div>
+
+        <h2>Why This Is Worth Doing</h2>
+        <p>An automated off-device backup turns a potential disaster into a non-event. Hardware fails, gets replaced, gets reset by accident. With a current config sitting safely in cloud storage, recovery is a restore, not a rebuild. For a home network it is peace of mind. For anything with users depending on it, it is basic operational hygiene: the difference between an hour of downtime and a weekend of reconstruction.</p>
+        <p>The wider point applies well beyond routers. Any system worth configuring is worth backing up automatically, off the device, on a schedule, with the restore path tested before you need it. The setup takes an afternoon once. The alternative is discovering, at the worst possible moment, that your only copy was on the thing that just died.</p>
+
+      </div>
+
+      <footer class="blog-footer">
+        <a href="/#blog" class="btn-outline">&larr; Back to Blog</a>
+        <a href="/#contact" class="btn-filled">Get in touch &rarr;</a>
+      </footer>
+
+    </div>
+  </article>
+
+  <footer>
+    <div class="footer-brand">RUVIDIĆ · © 2026</div>
+    <div class="footer-note">ruvidic.com · Hosted on Vercel</div>
+  </footer>
+
+</body>
+</html>
