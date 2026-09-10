@@ -161,6 +161,13 @@ window.siteContent = {
   ],
   blog: [
     {
+      slug: "blog/mikrotik-automated-backup",
+      tag: "MikroTik · Networking · Backup", tagClass: "t-teal",
+      title: "Automating MikroTik Backups to the Cloud",
+      excerpt: "A router backup that lives only on the router is not a backup. Scheduled off-device config backups by email, and the SMTP gotchas that trip everyone up.",
+      date: "July 2026"
+    },
+    {
       slug: "blog/modernizing-an-old-elevator",
       tag: "Kiosk · PWA · Facility", tagClass: "t-blue",
       title: "Modernizing an Old Elevator",
