@@ -4,20 +4,20 @@ window.siteContent = {
     titleOutline: "RUVIDIĆ",
     eyebrow: "IT · Security · Facility · Photography",
     location: "Belgrade, Serbia",
-    tagline: "Army, UN mission, IT — and always a river,<br>a lens, or an aquarium somewhere in the background."
+    tagline: "Army, UN mission, IT, and always a river,<br>a lens, or an aquarium somewhere in the background."
   },
   about: {
     paragraphs: [
-      "My career started in uniform — 14 years in the Serbian Army, including a 7-month deployment with the UN peacekeeping mission MINUSCA in the Central African Republic. Operational work far from home, in conditions that demand precision and a cool head.",
-      "Then came hospitality IT and facilities — infrastructure, networks, helpdesk, systems management, and operational support across international hotel environments.",
-      "Today the focus is on security, compliance, automations, ISO standards, BCP plans, policies, and training — everything that keeps a modern company operational and secure."
+      "My career started in uniform: 14 years in the Serbian Army, including a 7-month deployment with the UN peacekeeping mission MINUSCA in the Central African Republic. Operational work far from home, in conditions that demand precision and a cool head.",
+      "Then came hospitality IT and facilities: infrastructure, networks, helpdesk, systems management, and operational support across international hotel environments.",
+      "Today the focus is on security, compliance, automations, ISO standards, BCP plans, policies, and training: everything that keeps a modern company operational and secure."
     ],
     timeline: [
       { year: "2002–2016", role: "Non-commissioned officer - NCO", org: "Serbian Army", desc: "14 years of active service. Operations, logistics, training. Awarded Medal for 10 Years of Distinguished Service and 200th Anniversary of the Serbian Army Commemorative Medal.", active: false,
         orgLinks: [{ label: "Serbian Army", url: "https://www.vs.rs/sr_lat" }]
       },
-      { year: "during service", role: "UN Peacekeeper", org: "MINUSCA — Central African Republic", desc: "7-month deployment with UN peacekeeping mission MINUSCA. Medal awarded by the UN Secretary-General. STANAG 6001 language certified.", active: false,
-        orgLinks: [{ label: "MINUSCA — Central African Republic", url: "https://peacekeeping.un.org/en/mission/minusca" }]
+      { year: "during service", role: "UN Peacekeeper", org: "MINUSCA, Central African Republic", desc: "7-month deployment with UN peacekeeping mission MINUSCA. Medal awarded by the UN Secretary-General. STANAG 6001 language certified.", active: false,
+        orgLinks: [{ label: "MINUSCA, Central African Republic", url: "https://peacekeeping.un.org/en/mission/minusca" }]
       },
       { year: "2016–2021", role: "IT Manager", org: "Radisson Hotel Group · Marriott International", desc: "Infrastructure, networks, ITIL, SNOW, systems management.", active: false,
         orgLinks: [
@@ -71,10 +71,12 @@ window.siteContent = {
     }
   ],
   expertise: [
-    { icon: "🔐", iconClass: "icon-teal", title: "IT Security & Audits", text: "SIEM implementation, GCP service accounts for Drive audit, OAuth audit, spam control, phishing tests, network analytics.", tags: [{label:"SIEM", class:"t-teal"},{label:"GCP", class:"t-teal"},{label:"Drive Audit", class:"t-teal"},{label:"OAuth", class:"t-teal"},{label:"Phishing", class:"t-teal"},{label:"Unifi API", class:"t-teal"}] },
-    { icon: "⚙️", iconClass: "icon-blue", title: "Automations & Integrations", text: "OpenClaw server configuration+setting agents for several use cases, Apps Script workflow automations, API integrations with HubSpot and Slack, service accounts for email and calendar monitoring.", tags: [{label:"Apps Script", class:"t-blue"},{label:"HubSpot API", class:"t-blue"},{label:"Slack API", class:"t-blue"},{label:"Overclaw", class:"t-blue"},{label:"Gmail API", class:"t-blue"}] },
-    { icon: "🏢", iconClass: "icon-amber", title: "Facility & Building Management", text: "Building management, fire safety training, access control, CCTV, deadline tracking and legal compliance.", tags: [{label:"Fire Safety", class:"t-amber"},{label:"Access Control", class:"t-amber"},{label:"CCTV", class:"t-amber"},{label:"Facility", class:"t-amber"}] },
-    { icon: "📋", iconClass: "icon-green", title: "ISO & Governance", text: "Planning, documentation and certification for ISO 9001, 27001 and 27701. BCP and IRP plans, data protection, network infrastructure.", tags: [{label:"ISO 9001", class:"t-green"},{label:"ISO 27001", class:"t-green"},{label:"ISO 27701", class:"t-green"},{label:"BCP/IRP", class:"t-green"}] }
+    { icon: "🔐", iconClass: "icon-teal", title: "IT Security & Audits", text: "SIEM implementation, GCP service accounts for Drive audit, OAuth audit, spam control, phishing tests, and network analytics.", tags: [{label:"SIEM", class:"t-teal"},{label:"GCP", class:"t-teal"},{label:"Drive Audit", class:"t-teal"},{label:"OAuth", class:"t-teal"},{label:"Phishing", class:"t-teal"},{label:"Unifi API", class:"t-teal"}] },
+    { icon: "🤖", iconClass: "icon-blue", title: "AI & LLM Integrations", text: "Building practical AI agents and LLM-powered tools: meeting transcript summarization, autonomous business-signal monitoring, and cost-aware model selection for real-world tasks.", tags: [{label:"Claude API", class:"t-blue"},{label:"AI Agents", class:"t-blue"},{label:"Apps Script", class:"t-blue"},{label:"Prompt Design", class:"t-blue"},{label:"Automation", class:"t-blue"}] },
+    { icon: "⚙️", iconClass: "icon-green", title: "Automations & Integrations", text: "Apps Script workflow automations, API integrations with HubSpot and Slack, service accounts for email and calendar monitoring, and accounting-system integration over REST APIs.", tags: [{label:"Apps Script", class:"t-green"},{label:"HubSpot API", class:"t-green"},{label:"Slack API", class:"t-green"},{label:"Python", class:"t-green"},{label:"REST APIs", class:"t-green"}] },
+    { icon: "🔧", iconClass: "icon-amber", title: "Home Lab & IoT", text: "Raspberry Pi sensor stacks, self-hosted monitoring with InfluxDB and Grafana, MikroTik networking, kiosk PWAs, and Linux tinkering that bridges hardware and software.", tags: [{label:"Raspberry Pi", class:"t-amber"},{label:"MikroTik", class:"t-amber"},{label:"Grafana", class:"t-amber"},{label:"Docker", class:"t-amber"},{label:"Linux", class:"t-amber"}] },
+    { icon: "🏢", iconClass: "icon-teal", title: "Facility & Building Management", text: "Building management, fire safety training, access control, CCTV, deadline tracking, and legal compliance.", tags: [{label:"Fire Safety", class:"t-teal"},{label:"Access Control", class:"t-teal"},{label:"CCTV", class:"t-teal"},{label:"Facility", class:"t-teal"}] },
+    { icon: "📋", iconClass: "icon-green", title: "ISO & Governance", text: "Planning, documentation, and certification for ISO 9001, 27001, and 27701. BCP and IRP plans, data protection, and network infrastructure.", tags: [{label:"ISO 9001", class:"t-green"},{label:"ISO 27001", class:"t-green"},{label:"ISO 27701", class:"t-green"},{label:"BCP/IRP", class:"t-green"}] }
   ],
   projects: [
     {
@@ -86,7 +88,7 @@ window.siteContent = {
       status: {label:"Security", class:"t-teal"}
     },
     {
-      title: "ISO Triple Certification — 9001 / 27001 / 27701",
+      title: "ISO Triple Certification: 9001 / 27001 / 27701",
       problem: "Company needed to achieve ISO 27001, 27701, and 9001 certification with no existing ISMS framework, no documented processes, and a tight deadline.",
       action: "Led the full certification process: gap analysis across all three standards, built the ISMS from scratch, authored all mandatory policies and procedures, conducted internal audits, managed the external audit preparation.",
       result: "Successfully certified across all three standards in a single audit cycle. Zero major non-conformities at the external audit.",
@@ -96,14 +98,14 @@ window.siteContent = {
     {
       title: "Office Presence Tracking System",
       problem: "No reliable way to track daily office attendance across multiple locations. Manual headcounts were inconsistent and time-consuming.",
-      action: "Built an automated presence tracking solution using the Dahua DSS+ access control system. Extracted access records from MariaDB via Python, processed entry/exit data per employee, and delivered a daily Slack report via webhook — fully automated through Windows Task Scheduler.",
+      action: "Built an automated presence tracking solution using the Dahua DSS+ access control system. Extracted access records from MariaDB via Python, processed entry/exit data per employee, and delivered a daily Slack report via webhook, fully automated through Windows Task Scheduler.",
       result: "Daily attendance reports delivered automatically to Slack every morning. Zero manual effort required. Solution deployed across Belgrade office with plan to replicate to other locations.",
       tags: [{label:"Python", class:"t-blue"},{label:"Slack API", class:"t-blue"},{label:"MariaDB", class:"t-teal"},{label:"Automation", class:"t-blue"}],
       status: {label:"Automation", class:"t-blue"}
     },
     {
-      title: "Network Analytics — Unifi API",
-      problem: "Network incidents were detected reactively — only after users reported issues. No visibility into traffic patterns, rogue devices, or anomalies in real time.",
+      title: "Network Analytics: Unifi API",
+      problem: "Network incidents were detected reactively, only after users reported issues. No visibility into traffic patterns, rogue devices, or anomalies in real time.",
       action: "Automated data collection from Unifi controller via API. Built real-time dashboards for traffic analysis, connected device monitoring, and security incident detection with alerting.",
       result: "Proactive detection of network anomalies before user impact. Rogue device identification reduced incident investigation time from hours to minutes.",
       tags: [{label:"Unifi API", class:"t-teal"},{label:"Network", class:"t-teal"},{label:"Automation", class:"t-blue"},{label:"SIEM", class:"t-teal"}],
@@ -115,7 +117,7 @@ window.siteContent = {
     {num:"ISO", name:"ISO 27701", body:"Privacy management"},
     {num:"ISO", name:"ISO 9001", body:"Quality management"},
     {num:"GCP", name:"Google Cybersecurity", body:"Professional Certificate"},
-    {num:"PP", name:"Fire Safety", body:"State exam — firefighter"},
+    {num:"PP", name:"Fire Safety", body:"State exam, firefighter"},
     {num:"IT", name:"ECDL", body:"European Computer Driving Licence"},
     {num:"UN", name:"UN Peacekeeper", body:"MINUSCA · Central African Rep."},
     {num:"LANG", name:"STANAG 6001", body:"Military language proficiency"}
@@ -148,7 +150,7 @@ window.siteContent = {
       slug: "passions/marine-aquaristics",
       tag: "Reef Tank · Marine", tagClass: "t-blue",
       title: "Ocean in Four Walls",
-      excerpt: "A reef tank is a living ecosystem — water chemistry, light cycles, species compatibility. Biology and chemistry in miniature format.",
+      excerpt: "A reef tank is a living ecosystem: water chemistry, light cycles, species compatibility. Biology and chemistry in miniature format.",
       icon: "🪸"
     },
     {
@@ -206,30 +208,31 @@ window.siteContent = {
       slug: "blog/iso-27001",
       tag: "ISO · Compliance", tagClass: "t-green",
       title: "How to Prepare for ISO 27001",
-      excerpt: "From gap analysis to audit day — a practical guide based on real certification experience.",
+      excerpt: "From gap analysis to audit day, a practical guide based on real certification experience.",
       date: "March 2026"
     },
     {
       slug: "blog/gcp-security-checklist",
       tag: "GCP · Security", tagClass: "t-teal",
       title: "GCP Security Checklist",
-      excerpt: "Practical controls for securing your Google Cloud environment — IAM, service accounts, audit logging and more.",
+      excerpt: "Practical controls for securing your Google Cloud environment: IAM, service accounts, audit logging and more.",
       date: "March 2026"
     },
     {
       slug: "blog/common-compliance-mistakes",
       tag: "Compliance · Audit", tagClass: "t-amber",
       title: "Common Compliance Mistakes",
-      excerpt: "Patterns that keep appearing across organizations — and how to fix them before the auditor finds them first.",
+      excerpt: "Patterns that keep appearing across organizations, and how to fix them before the auditor finds them first.",
       date: "March 2026"
     }
   ],
   contact: {
     title: "Let's<br><span>connect</span>",
-    text: "Always happy to connect — whether you're into IT, security or compliance, or you simply share an interest in fly fishing, macro photography or astrophotography.",
+    text: "Always happy to connect, whether you're into IT, security or compliance, or you simply share an interest in fly fishing, macro photography or astrophotography.",
     links: [
       {type:"a", href:"https://www.linkedin.com/in/zoran-ruvidic/", target:"_blank", icon:"linkedin", label:"Zoran Ruvidic", sub:"↗"},
-      {type:"a", href:"https://www.instagram.com/zoran_ruvidic/", target:"_blank", icon:"instagram", label:"zoran.ruvidic", sub:"↗"},
+      {type:"a", href:"https://github.com/Rookie83-dev", target:"_blank", icon:"github", label:"Rookie83-dev", sub:"↗"},
+      {type:"a", href:"https://www.instagram.com/zoran_ruvidic/", target:"_blank", icon:"instagram", label:"zoran_ruvidic", sub:"↗"},
       {type:"div", icon:"location", label:"Belgrade, Serbia", sub:"📍"}
     ]
   }
