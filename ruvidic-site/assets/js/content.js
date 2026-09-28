@@ -163,6 +163,13 @@ window.siteContent = {
   ],
   blog: [
     {
+      slug: "blog/bank-statement-automation",
+      tag: "Automation · Google Workspace · Security", tagClass: "t-green",
+      title: "From Inbox to Folder",
+      excerpt: "Automating the daily filing of bank statements from a shared mailbox into a structured Drive archive, and why trust, dates and duplicates mattered more than code.",
+      date: "September 2026"
+    },
+    {
       slug: "blog/mikrotik-automated-backup",
       tag: "MikroTik · Networking · Backup", tagClass: "t-teal",
       title: "Automating MikroTik Backups to the Cloud",
