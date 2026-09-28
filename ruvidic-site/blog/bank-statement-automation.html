@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>From Inbox to Folder: Automating Bank Statement Filing · Zoran Ruvidić</title>
+  <meta name="description" content="How I automated the daily filing of bank statements from a shared mailbox into a structured Drive archive, and why the hard parts were trust, dates and duplicates, not code.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+</head>
+<body>
+
+  <nav class="blog-nav">
+    <div class="blog-nav-inner">
+      <a href="/" class="nav-logo">ZR</a>
+      <a href="/#blog" class="nav-back">← All posts</a>
+    </div>
+  </nav>
+
+  <article class="blog-article">
+    <div class="blog-inner">
+
+      <header class="blog-header">
+        <div class="blog-meta">
+          <span class="blog-tag t-green">Automation · Google Workspace · Security</span>
+          <span class="blog-date">September 2026</span>
+        </div>
+        <h1>From inbox to folder: <span>automating bank statement filing</span></h1>
+        <p class="blog-lead">Every night the bank emails statements for several companies to a shared accounting mailbox. Every morning someone downloaded each PDF, worked out which company and account it belonged to, and filed it into the right year, month and account folder. This is how I took that job off a person's desk, and why the interesting problems were trust, dates and duplicates rather than code.</p>
+      </header>
+
+      <div class="blog-body">
+
+        <h2>The starting point</h2>
+        <p>The process was simple and tedious. Statements arrive by email, one message per account, with a PDF and sometimes a few text and XML exports attached. Each PDF goes into a shared drive under a fixed structure: company, then year, then month, then account number. A handful of accounts across several legal entities, some in local currency and some in foreign currencies, every working day.</p>
+        <p>Nothing about it needs judgement on a normal day. It needs attention, and attention is exactly what a person should not have to spend on moving files. The brief I got was clear: find the email, read the account and the date, put the PDF where it belongs, never create duplicates, and never file anything into a wrong folder just to keep things moving.</p>
+
+        <h2>Reading someone else's mailbox without handing out keys</h2>
+        <p>The statements land in a colleague's inbox. The automation runs as a Google Apps Script project under my admin account. To let the script read her mailbox without her password and without a long lived secret sitting somewhere, I used a service account with domain-wide delegation, limited to a single Gmail scope that can read messages and apply labels, nothing more.</p>
+        <p>The usual way to do this involves downloading a JSON private key for the service account and storing it in the script. I did not want that key to exist at all. Instead, the script asks the IAM Credentials API to sign the token on its behalf, using my own identity and a single role granted on that one service account. There is no key file to leak, rotate or forget about. If I lose that role, the automation stops, which is exactly how it should fail.</p>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Lesson</span>
+          <span class="blog-tip-text">Domain-wide delegation is powerful: whoever can use that service account can read any mailbox in the domain, not just the one you had in mind. Keep the scope as narrow as the job allows, avoid key files entirely, and make sure exactly one person can act as the service account.</span>
+        </div>
+
+        <h2>Do not trust the From header</h2>
+        <p>The first surprise came from something that looked trivial: identifying the right emails. The bank sends to a group address, and the group rewrites the sender, so every statement appears to come from the group itself rather than from the bank. A filter on the sender would have matched nothing, or worse, everything the group ever forwards.</p>
+        <p>The fix was to search by the subject pattern the bank uses, then confirm the real sender from the original headers the group preserves. Two conditions, both required. A newsletter from the same bank with a different subject is ignored, and so is a lookalike subject from anyone else.</p>
+
+        <h2>The date is not where you think it is</h2>
+        <p>The subject carries the account number and the statement number. It does not carry the date. The obvious shortcut is the date the email arrived, and it is wrong in a way that only shows up at the worst possible moment. Statements arrive shortly after midnight for the previous day, so the statement for the last day of a month lands in the next month's folder. That is precisely the file an accountant looks for at month end.</p>
+        <p>So the date comes from the document itself. Google Drive can convert a PDF to text, with OCR if the file is a scan, entirely inside the Workspace tenant, so the statement never leaves the environment it already lives in. The script reads the text after a known phrase and takes the date from there. If it finds two dates from different months and cannot tell which one is the statement date, it does not guess.</p>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Lesson</span>
+          <span class="blog-tip-text">Never derive a business date from a transport timestamp. When a mail was sent is a fact about the mail, not about the document inside it. Read the date from the document, and treat an unclear date as an error rather than a best effort.</span>
+        </div>
+
+        <h2>The statement body is full of the wrong account numbers</h2>
+        <p>A bank statement lists transactions, and every transaction carries the other party's account number. When two of the companies pay each other, a statement for one of them contains the account of the other. A script that scans the whole PDF for a known account number will sooner or later file a statement under the wrong company, and it will do so confidently.</p>
+        <p>The rule that fixed it: the account comes from the subject first, then the file name, and only then from the header of the document. The transaction list is never used to decide where a file goes. For a brand new account that is not in the configuration yet, the script looks for the company's tax ID in the statement header, adds the account to the list and creates its folder. If it finds tax IDs of two different companies there, it stops.</p>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Lesson</span>
+          <span class="blog-tip-text">When an automation is not sure, it should stop and say why, not pick the likeliest answer. A statement in an error folder with a clear reason costs a minute. A statement quietly filed under the wrong company costs an audit finding.</span>
+        </div>
+
+        <h2>Duplicates by content, not by name</h2>
+        <p>By the time the script was ready, my colleague had already filed the last month by hand, under the original file names from the bank. If the script simply saved everything it found, every recent statement would appear twice in the archive, once under her name and once under mine.</p>
+        <p>So before saving, the script lists the target folder and compares content hashes, not names. A file with the same content counts as the same file, whatever it is called and whoever put it there. Each processed message is also recorded, so a rerun skips it without reopening the PDF. Running the job twice, or a person filing a statement manually on a busy day, changes nothing.</p>
+
+        <h2>The acceptance test was already sitting on the drive</h2>
+        <p>Before going live I ran the whole pipeline in a dry run mode over the last thirty days of email: every decision logged, nothing written, no labels applied. Because the month had already been filed by hand, the archive itself became the test. Every one of the 48 statements in that window was recognised as already present, in exactly the folder the script would have chosen, including the one dated on the last day of the previous month, which correctly went into the previous month's folder.</p>
+        <p>That told me more than any unit test could have. The logic did not just run without errors, it agreed with the person who had been doing the job for years.</p>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Lesson</span>
+          <span class="blog-tip-text">When you automate work people already do, their past output is your best test data. Run the automation in read only mode against it before you let it write anything. Agreement with an experienced human is a stronger signal than a green test suite.</span>
+        </div>
+
+        <h2>Small things that mattered</h2>
+        <ul class="checklist">
+          <li><strong>Timing follows the bank, not a round number.</strong> Local currency statements arrive around 1 a.m., foreign currency ones sometimes mid morning or late evening. The script runs shortly after each of those windows, plus a morning pass that catches stragglers and sends a short daily summary.</li>
+          <li><strong>One account, several currencies.</strong> A foreign currency account produces a separate statement per currency on the same day. The currency and statement number are read from the subject, so nothing collides.</li>
+          <li><strong>Match the existing conventions.</strong> Files keep the bank's original names, and existing month folders are recognised whether they are written as a name or a number. The archive looks the same as before, it just fills itself.</li>
+          <li><strong>Configuration in a sheet, not in code.</strong> Companies, accounts, folder paths and mail rules live in a spreadsheet. Adding an account or a new bank is a row, not a deployment.</li>
+          <li><strong>Logs without content.</strong> Every decision is logged with the account, date, source of the date and destination folder. The contents of a statement are never written anywhere outside the drive.</li>
+        </ul>
+
+        <h2>What shipped</h2>
+        <p>Statements now arrive at night and are filed before anyone starts work, into the same folders, under the same names, with no duplicates. Emails get a label that says whether they were processed or need a look. Anything the script cannot place with certainty goes to a separate error folder with the reason attached, and the daily summary says so. The person who used to do this every morning now only looks when something is flagged.</p>
+        <p>The code was the easy part. The work was in deciding what the automation is allowed to assume, and making it say so clearly whenever it is not sure.</p>
+
+      </div>
+
+      <footer class="blog-footer">
+        <a href="/#blog" class="btn-outline">← Back to Blog</a>
+        <a href="/#contact" class="btn-filled">Get in touch →</a>
+      </footer>
+
+    </div>
+  </article>
+
+  <footer>
+    <div class="footer-brand">RUVIDIĆ · © 2026</div>
+    <div class="footer-note">ruvidic.com · Hosted on Vercel</div>
+  </footer>
+
+</body>
+</html>
