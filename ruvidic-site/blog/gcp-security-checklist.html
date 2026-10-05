@@ -3,14 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GCP Security Checklist — Zoran Ruvidić</title>
+  <meta name="format-detection" content="telephone=no,date=no,address=no,email=no">
+  <title>GCP Security Checklist · Zoran Ruvidić</title>
   <meta name="description" content="A practical Google Cloud Platform security checklist covering IAM, service accounts, audit logging, network controls, and more.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../assets/css/styles.css">
-  <link rel="stylesheet" href="../assets/css/blog.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+  <link rel="canonical" href="https://www.ruvidic.com/blog/gcp-security-checklist">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="GCP Security Checklist">
+  <meta property="og:description" content="A practical Google Cloud Platform security checklist covering IAM, service accounts, audit logging, network controls, and more.">
+  <meta property="og:url" content="https://www.ruvidic.com/blog/gcp-security-checklist">
+  <meta property="og:image" content="https://www.ruvidic.com/assets/img/og-image.png">
+  <meta property="og:site_name" content="Zoran Ruvidić">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GCP Security Checklist">
+  <meta name="twitter:description" content="A practical Google Cloud Platform security checklist covering IAM, service accounts, audit logging, network controls, and more.">
+  <meta name="twitter:image" content="https://www.ruvidic.com/assets/img/og-image.png">
+
+  <!-- Schema.org Article -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "GCP Security Checklist",
+  "description": "A practical Google Cloud Platform security checklist covering IAM, service accounts, audit logging, network controls, and more.",
+  "image": "https://www.ruvidic.com/assets/img/og-image.png",
+  "url": "https://www.ruvidic.com/blog/gcp-security-checklist",
+  "datePublished": "2026-03-01",
+  "dateModified": "2026-10-02",
+  "author": {
+    "@type": "Person",
+    "name": "Zoran Ruvidić",
+    "url": "https://www.ruvidic.com"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Zoran Ruvidić",
+    "url": "https://www.ruvidic.com"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.ruvidic.com/blog/gcp-security-checklist"
+  }
+}
+  </script>
 </head>
 <body>
   <nav>
@@ -18,7 +62,6 @@
     <div class="nav-links">
       <a href="/#about">About</a>
       <a href="/#work">Work</a>
-      <a href="/#gallery">Photo</a>
       <a href="/#passions">Interests</a>
       <a href="/#blog">Blog</a>
       <a href="/#contact">Contact</a>
@@ -34,7 +77,7 @@
           <span class="blog-date">March 2026</span>
         </div>
         <h1>GCP Security<br><span>Checklist</span></h1>
-        <p class="blog-lead">Practical controls for securing your Google Cloud Platform environment — from IAM hygiene to audit logging and beyond.</p>
+        <p class="blog-lead">Practical controls for securing your Google Cloud Platform environment, from IAM hygiene to audit logging and beyond.</p>
       </header>
 
       <div class="blog-body">
@@ -80,7 +123,7 @@
           </div>
         </div>
 
-        <div class="blog-tip"><span class="blog-tip-label">Real-world scenario</span><span class="blog-tip-text">A service account with Editor role on a project is effectively a skeleton key. One leaked JSON key and an attacker can read, modify, or delete most resources. Scope it down — even if it's inconvenient.</span></div>
+        <div class="blog-tip"><span class="blog-tip-label">Real-world scenario</span><span class="blog-tip-text">A service account with Editor role on a project is effectively a skeleton key. One leaked JSON key and an attacker can read, modify, or delete most resources. Scope it down, even if it's inconvenient.</span></div>
 
         <h2>Audit Logging</h2>
         <div class="checklist">
@@ -131,7 +174,7 @@
           </div>
         </div>
 
-        <div class="blog-tip"><span class="blog-tip-label">Bottom line</span><span class="blog-tip-text">GCP gives you the tools — IAM Recommender, Security Command Center, Policy Analyzer. The challenge isn't capability, it's discipline: reviewing, rotating, restricting. Build these checks into your monthly ops routine, not your annual audit.</span></div>
+        <div class="blog-tip"><span class="blog-tip-label">Bottom line</span><span class="blog-tip-text">GCP gives you the tools, IAM Recommender, Security Command Center, Policy Analyzer. The challenge isn't capability, it's discipline: reviewing, rotating, restricting. Build these checks into your monthly ops routine, not your annual audit.</span></div>
 
       </div>
 
