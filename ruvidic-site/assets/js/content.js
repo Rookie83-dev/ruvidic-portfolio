@@ -163,6 +163,13 @@ window.siteContent = {
   ],
   blog: [
     {
+      slug: "blog/in-house-hr-platform",
+      tag: "Product · HR · Build vs Buy", tagClass: "t-green",
+      title: "Building an HR Platform In-House",
+      excerpt: "Replacing a subscription HR tool with a custom in-house app: the build versus buy call, modelling the real workflow instead of the old screens, approval chains as data, and shipping in slices.",
+      date: "October 2026"
+    },
+    {
       slug: "blog/bank-statement-automation",
       tag: "Automation · Google Workspace · Security", tagClass: "t-green",
       title: "From Inbox to Folder",
