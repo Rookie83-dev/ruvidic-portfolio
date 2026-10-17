@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no,date=no,address=no,email=no">
+  <title>Building an HR Platform In-House · Zoran Ruvidić</title>
+  <meta name="description" content="The process and method behind replacing a subscription HR tool with a custom in-house application: the build versus buy decision, modelling the real workflow, roles and approval chains, migrating records, and shipping in slices.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap"></noscript>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+  <link rel="canonical" href="https://www.ruvidic.com/blog/in-house-hr-platform">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Building an HR Platform In-House">
+  <meta property="og:description" content="The process and method behind replacing a subscription HR tool with a custom in-house application: the build versus buy decision, modelling the real workflow, roles and approval chains, migrating records, and shipping in slices.">
+  <meta property="og:url" content="https://www.ruvidic.com/blog/in-house-hr-platform">
+  <meta property="og:image" content="https://www.ruvidic.com/assets/img/og-image.png">
+  <meta property="og:site_name" content="Zoran Ruvidić">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Building an HR Platform In-House">
+  <meta name="twitter:description" content="The process and method behind replacing a subscription HR tool with a custom in-house application: the build versus buy decision, modelling the real workflow, roles and approval chains, migrating records, and shipping in slices.">
+  <meta name="twitter:image" content="https://www.ruvidic.com/assets/img/og-image.png">
+
+  <!-- Schema.org Article -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Building an HR Platform In-House",
+  "description": "The process and method behind replacing a subscription HR tool with a custom in-house application: the build versus buy decision, modelling the real workflow, roles and approval chains, migrating records, and shipping in slices.",
+  "image": "https://www.ruvidic.com/assets/img/og-image.png",
+  "url": "https://www.ruvidic.com/blog/in-house-hr-platform",
+  "datePublished": "2026-10-18",
+  "dateModified": "2026-10-18",
+  "author": {
+    "@type": "Person",
+    "name": "Zoran Ruvidić",
+    "url": "https://www.ruvidic.com"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Zoran Ruvidić",
+    "url": "https://www.ruvidic.com"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.ruvidic.com/blog/in-house-hr-platform"
+  }
+}
+  </script>
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-brand">RUVIDIĆ</a>
+    <div class="nav-links">
+      <a href="/#about">About</a>
+      <a href="/#work">Work</a>
+      <a href="/#passions">Interests</a>
+      <a href="/#blog">Blog</a>
+      <a href="/#contact">Contact</a>
+    </div>
+  </nav>
+
+  <article class="blog-article">
+    <div class="blog-inner">
+
+      <header class="blog-header">
+        <div class="blog-meta">
+          <span class="blog-tag t-green">Product · HR · Build vs Buy</span>
+          <span class="blog-date">October 2026</span>
+        </div>
+        <h1>Building an HR Platform<br><span>In-House</span></h1>
+        <p class="blog-lead">Every company eventually hits a subscription tool that costs more than it gives back, or that just will not bend the way the business actually works. This is the method I used to replace one such tool, a system for employee records and leave approvals, with an in-house application, and the decisions that mattered far more than the code.</p>
+      </header>
+
+      <div class="blog-body">
+
+        <h2>Build or Buy, Honestly</h2>
+        <p>The honest starting point is not "we can build this ourselves", it is "should we". A subscription tool you can set up in an afternoon is almost always cheaper than engineering time, until it is not. The tipping point is usually one of three things: the per-user price stops matching the value, the tool refuses to model a process the way the business actually runs it, or the data you care about lives somewhere you cannot freely query. When two of those three are true, building starts to make sense.</p>
+        <p>I wrote the decision down in plain language before writing any code, because "we were annoyed with the old tool" is not a reason, and in six months nobody remembers the real one. A written build versus buy note is also what you show management when they ask, a year later, why this exists.</p>
+        <div class="blog-tip"><span class="blog-tip-label">Lesson</span><span class="blog-tip-text">Build versus buy is a cost question, not an ego question. Count the hours honestly, including the years of maintenance after launch. If the only win is "it is ours", buy. If the win is control over the workflow and the data, build.</span></div>
+
+        <h2>Model the Workflow, Not the Old Screens</h2>
+        <p>The biggest trap when you replace an existing tool is rebuilding its screens one for one. The old tool's layout is the result of its own history and compromises, not a description of how your company works. So I started from the workflow on paper: who requests what, who approves it, who needs to see the result, and what has to be true before each step can happen.</p>
+        <p>Only after that did I think about screens. Half of the old tool's features turned out to be things nobody used, and two things people did every week were buried three clicks deep. Modelling the workflow first is what let me drop the first and surface the second.</p>
+
+        <h2>Choose a Boring, Familiar Foundation</h2>
+        <p>For the base I chose a boring, familiar platform rather than the most exciting one. The app needed user accounts, roles, an admin area, and a database, all of which a mature platform already gives you for free and, crucially, has hardened over years. That meant I could spend my time on the parts that are specific to us, the approval logic and the records, instead of rebuilding login and permissions from scratch.</p>
+        <p>A non-developer colleague can also manage users and settings through an admin screen they already understand, which matters more than any framework benchmark once the app is live and I am not the only person who can touch it.</p>
+        <div class="blog-tip"><span class="blog-tip-label">Lesson</span><span class="blog-tip-text">The exciting choice and the right choice are rarely the same. Pick the foundation that lets you write the least code for the part that is actually yours, and that someone other than you can keep running.</span></div>
+
+        <h2>The Data Model Is the Product</h2>
+        <p>With an app like this, the data model is the product. Everything else is a view onto it. I spent real time getting a few things right: an employee record that is the single source of truth, a request that carries its own state (submitted, approved, rejected, cancelled) and its full history, and balances that are calculated from records rather than stored as a number someone can overwrite.</p>
+        <p>The moment a balance is a stored number instead of a sum of events, it starts drifting, and then nobody trusts it. Model the events, derive the totals. A balance you can always recompute from first principles is a balance people will believe.</p>
+
+        <h2>Roles and the Approval Chain</h2>
+        <p>Leave approval is really a permission problem wearing a calendar. A person can see and do different things depending on who they are: an employee sees their own requests and balances, a manager sees and decides on their team's, an administrative role sees everyone and can correct mistakes. I kept these as a small, explicit set of roles rather than a pile of individual flags, because every extra special case is a future bug.</p>
+        <p>The approval chain itself is data, not code: who approves for whom is a setting. That way a reorganisation is a configuration change someone makes in the admin area, not a line of code and a redeploy.</p>
+        <div class="blog-tip"><span class="blog-tip-label">Lesson</span><span class="blog-tip-text">If "who can do this" lives in code, every org change is a developer ticket. Put the org chart and the approval rules in data, and the business can change itself without waiting on you.</span></div>
+
+        <h2>Migrating the Records People Already Trust</h2>
+        <p>A new system earns trust by agreeing with the old one on day one. Before switching anyone over, I imported the existing records and balances and checked that the numbers matched what people already believed to be true. Where they did not match, that was a finding about the old data, not something to paper over.</p>
+        <p>I also kept the import repeatable, so I could run it against a copy as many times as I needed and only point it at the live system once I was sure. The goal was simple: on the first morning, every person who logged in saw exactly the balance they expected.</p>
+
+        <h2>Ship a Slice, Then Widen</h2>
+        <p>I did not try to launch the whole thing at once. The first release did one complete workflow end to end, requesting and approving leave, for one group of people. That slice was small enough to get right and real enough to prove the model. Everything after that, more record types, reports, edge cases, went out as small updates on top of a thing that already worked.</p>
+        <p>Shipping a narrow slice that is genuinely finished beats shipping a wide one that is almost done, because "almost done" is where projects quietly die.</p>
+        <div class="blog-tip"><span class="blog-tip-label">Lesson</span><span class="blog-tip-text">A feature that works for ten people is worth more than five features that half-work for everyone. Finish a slice, put it in real hands, then widen. The feedback from one real workflow is worth a month of planning.</span></div>
+
+        <h2>What Actually Mattered</h2>
+        <p>The code was the smallest part. What mattered was deciding when building was genuinely the right call, refusing to copy the old tool's screens, modelling the data as events rather than overwritable numbers, keeping roles and approval chains as configuration, and earning trust by matching the old numbers before the switch-over.</p>
+        <p>Do those, and the application almost writes itself. Skip them, and no amount of clean code saves you.</p>
+
+      </div>
+
+      <footer class="blog-footer">
+        <a href="/#blog" class="btn-outline">← Back to Blog</a>
+        <a href="/#contact" class="btn-filled">Get in touch →</a>
+      </footer>
+
+    </div>
+  </article>
+
+  <footer>
+    <div class="footer-brand">RUVIDIĆ · © 2026</div>
+    <div class="footer-note">ruvidic.com · Hosted on Vercel</div>
+  </footer>
+
+  <!-- Vercel Web Analytics -->
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
