@@ -163,6 +163,13 @@ window.siteContent = {
   ],
   blog: [
     {
+      slug: "blog/shipping-snekcade",
+      tag: "Product · PWA · Google Play", tagClass: "t-green",
+      title: "From Side Project to Google Play",
+      excerpt: "Launching Snekcade, a retro game that teaches Python: switching payment providers after a rejection, email on a budget, a Trusted Web Activity, and the Play Console gauntlet.",
+      date: "October 2026"
+    },
+    {
       slug: "blog/in-house-hr-platform",
       tag: "Product · HR · Build vs Buy", tagClass: "t-green",
       title: "Building an HR Platform In-House",

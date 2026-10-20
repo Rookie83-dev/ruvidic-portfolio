@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no,date=no,address=no,email=no">
+  <title>From Side Project to Google Play: Shipping Snekcade · Zoran Ruvidić</title>
+  <meta name="description" content="What it actually takes to launch a small learning app: payments after a merchant rejection, email on a budget, a Trusted Web Activity, and the Google Play Console gauntlet.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap"></noscript>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+  <link rel="canonical" href="https://www.ruvidic.com/blog/shipping-snekcade">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="From Side Project to Google Play: Shipping Snekcade">
+  <meta property="og:description" content="What it actually takes to launch a small learning app: payments after a merchant rejection, email on a budget, a Trusted Web Activity, and the Google Play Console gauntlet.">
+  <meta property="og:url" content="https://www.ruvidic.com/blog/shipping-snekcade">
+  <meta property="og:image" content="https://www.ruvidic.com/assets/img/og-image.png">
+  <meta property="og:site_name" content="Zoran Ruvidić">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="From Side Project to Google Play: Shipping Snekcade">
+  <meta name="twitter:description" content="What it actually takes to launch a small learning app: payments after a merchant rejection, email on a budget, a Trusted Web Activity, and the Google Play Console gauntlet.">
+  <meta name="twitter:image" content="https://www.ruvidic.com/assets/img/og-image.png">
+
+  <!-- Schema.org Article -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "From Side Project to Google Play: Shipping Snekcade",
+  "description": "What it actually takes to launch a small learning app: payments after a merchant rejection, email on a budget, a Trusted Web Activity, and the Google Play Console gauntlet.",
+  "image": "https://www.ruvidic.com/assets/img/og-image.png",
+  "url": "https://www.ruvidic.com/blog/shipping-snekcade",
+  "datePublished": "2026-10-20",
+  "dateModified": "2026-10-20",
+  "author": {
+    "@type": "Person",
+    "name": "Zoran Ruvidić",
+    "url": "https://www.ruvidic.com"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Zoran Ruvidić",
+    "url": "https://www.ruvidic.com"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.ruvidic.com/blog/shipping-snekcade"
+  }
+}
+  </script>
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-brand">RUVIDIĆ</a>
+    <div class="nav-links">
+      <a href="/#about">About</a>
+      <a href="/#work">Work</a>
+      <a href="/#passions">Interests</a>
+      <a href="/#blog">Blog</a>
+      <a href="/#contact">Contact</a>
+    </div>
+  </nav>
+
+  <article class="blog-article">
+    <div class="blog-inner">
+
+      <header class="blog-header">
+        <div class="blog-meta">
+          <span class="blog-tag t-green">Product · PWA · Google Play</span>
+          <span class="blog-date">October 2026</span>
+        </div>
+        <h1>From Side Project<br><span>to Google Play</span></h1>
+        <p class="blog-lead">Building the app turned out to be the easy part. Snekcade, a retro 8-bit game that teaches Python, was playable for weeks before it was launchable. This is the part nobody puts in the tutorial: payments, email, the domain, the Android wrapper, and the long list of declarations Google wants before anyone can install your app.</p>
+      </header>
+
+      <div class="blog-body">
+
+        <h2>What Snekcade Is</h2>
+        <p><a href="https://snekcade.com">Snekcade</a> turns a Python course into eight pixel worlds and 42 short levels. Each level is a few swipes: read a tiny idea, predict what the code prints, put lines in order, then write real Python that runs on the phone. There is an arcade mode, daily review, a monthly league, trophies, and a final world where you build the logic of your own Snake game and then play it. The first worlds are free with no account. A subscription, the Snek Pass, unlocks the rest.</p>
+        <p>Technically it is deliberately small: a static progressive web app with no framework, a handful of serverless functions on Vercel, and Supabase for accounts and sync. Python runs in the browser through WebAssembly, so there is no code execution server to secure or pay for.</p>
+
+        <h2>Payments: Plan B Is Part of the Plan</h2>
+        <p>Selling software internationally from Serbia means you want a merchant of record: a company that sells on your behalf and handles VAT, invoices and chargebacks. My first choice reviewed the store and rejected it, with no reason given. The integration was finished and tested by then, which hurt.</p>
+        <p>I switched to Polar, which supports sellers in Serbia. Because the app only ever stored a normalized subscription row (status, renewal date, end date), swapping providers meant writing one new webhook handler and one checkout endpoint, not touching the game. A few rules kept that layer honest:</p>
+
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Checkouts are created server-side.</strong> The browser asks for a checkout with the signed-in user's token; the API key never leaves the server, and the user ID travels inside the checkout so the webhook knows who paid.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Every webhook is verified.</strong> Signature checked against the raw body, timestamps older than five minutes refused, so a captured request cannot be replayed.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Idempotent and order-aware.</strong> Each delivery ID is recorded once, and an event older than the stored state is ignored, so a late "updated" can never undo a cancellation.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Test mode can't leak.</strong> Test-mode events are ignored in production unless explicitly allowed. Otherwise anyone with a test card number gets a free subscription.</div>
+          </div>
+        </div>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Lesson</span>
+          <span class="blog-tip-text">Keep the payment provider at the edge of the system. If your app logic only knows "is the Pass active until this date", a rejection from one provider costs you an evening, not a rewrite.</span>
+        </div>
+
+        <h2>Email Without Paying for a Mailbox</h2>
+        <p>An app with accounts needs two kinds of email: a public address people can write to, and reliable outgoing mail for sign-in codes. The registrar wanted a yearly fee for a mailbox I would barely use, and its DNS editor was locked behind a paid tier. So the domain's nameservers moved to Vercel, and the mail was split in two:</p>
+
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Inbound:</strong> a free forwarding service. A single alias on the domain lands in my normal inbox. No catch-all, so spam to random addresses simply bounces.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Outbound:</strong> a transactional email provider plugged into Supabase as custom SMTP, with SPF, DKIM and a DMARC record so sign-in emails reach the inbox instead of spam.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Branded templates:</strong> the default auth emails look like phishing. A small pixel-art header and one clear button fixed that, and the email stays tiny.</div>
+          </div>
+        </div>
+
+        <h2>Android Without Rewriting Anything</h2>
+        <p>The Play Store version is a Trusted Web Activity: a thin Android shell that opens the web app full screen in Chrome, plus the Play Billing bridge so subscriptions bought on Android go through Google. One codebase, two stores.</p>
+        <p>The shell only goes full screen if the website vouches for the app through a Digital Asset Links file containing the signing certificate fingerprint. The catch: with Play App Signing, Google re-signs the app with its own key. The fingerprint of the key you upload with is not the one users get, so the file needs both. Miss the second one and every user sees a browser address bar at the top of your "native" app.</p>
+        <p>The first uploads also bounced on requirements that change every year: the minimum SDK level for the browser helper library, the minimum Play Billing Library version, and the target SDK level for new apps. None of it was hard, but each one cost a build.</p>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Gotcha</span>
+          <span class="blog-tip-text">After your first upload, copy the "App signing key certificate" fingerprint from the Play Console into assetlinks.json. In the newer console it lives under Protected by Play, then Play Store protection, not under the old App integrity page.</span>
+        </div>
+
+        <h2>The Play Console Gauntlet</h2>
+        <p>A new personal developer account starts with identity verification, a verified phone, and proof that you own a real Android device. Then the app itself needs eleven declarations before the first review. Most are a few clicks; a few deserve thought.</p>
+
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Reviewer access.</strong> Reviewers cannot create accounts, pay, or use free trials. Snekcade signs in with one-time email codes, which a reviewer can't receive. The fix: one dedicated review account that signs in with a password, with the subscription pre-enabled in the database. Everyone else still uses codes.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Data safety.</strong> Declare what the app really collects, even the boring parts: crash reports, the push-notification address, the league nickname. Processors acting on your behalf (hosting, database, payments) don't count as sharing.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Account deletion.</strong> In-app deletion is not enough; Google wants a public web page explaining how to delete an account and what is kept. I had to add one.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Target audience.</strong> Choosing any age group under 13 pulls the app into the Families program with much stricter rules. A learning game can still honestly target 13 and up.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Closed testing.</strong> New personal accounts must run a closed test with at least twelve testers who stay opted in for fourteen consecutive days before production access is even possible. This is the slowest part of the whole launch, and it depends entirely on other people.</div>
+          </div>
+        </div>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Practical tip</span>
+          <span class="blog-tip-text">Switch the Play Console to English by adding ?hl=en to the URL. Every guide and forum answer uses the English labels, and the localized menus are reorganized just enough to get lost in.</span>
+        </div>
+
+        <h2>Where It Stands</h2>
+        <p>The web version is live, payments work end to end, and the Android closed test is in review with Google. Next is collecting testers, running the fourteen days, and applying for production. The lesson I keep relearning: the code is maybe half the work of a product. The other half is trust plumbing, the payments, email, signatures and declarations that let strangers rely on it.</p>
+        <p>If you have an Android phone and want to help, <a href="https://snekcade.com">play the web version</a> or send me the Gmail address you use on Google Play at <a href="mailto:hiss@snekcade.com?subject=Snekcade%20tester">hiss@snekcade.com</a> and I'll add you to the test.</p>
+
+      </div>
+
+      <footer class="blog-footer">
+        <a href="/#blog" class="btn-outline">&larr; Back to Blog</a>
+        <a href="/#contact" class="btn-filled">Get in touch &rarr;</a>
+      </footer>
+
+    </div>
+  </article>
+
+  <footer>
+    <div class="footer-brand">RUVIDIĆ · © 2026</div>
+    <div class="footer-note">ruvidic.com · Hosted on Vercel</div>
+  </footer>
+
+  <!-- Vercel Web Analytics -->
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
