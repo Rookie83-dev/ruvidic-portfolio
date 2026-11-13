@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no,date=no,address=no,email=no">
+  <title>Warpact: Building a Guild Pact Addon for WoW Forever · Zoran Ruvidić</title>
+  <meta name="description" content="A World of Warcraft addon that links several Horde guilds on WoW Forever into one pact: shared chat, census and crafters, a relay network for a client that drops channel messages, and chat that never touches the game's own chat box.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap"></noscript>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+  <link rel="canonical" href="https://www.ruvidic.com/blog/warpact-wow-forever-addon">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Warpact: Building a Guild Pact Addon for WoW Forever">
+  <meta property="og:description" content="A World of Warcraft addon that links several Horde guilds on WoW Forever into one pact: shared chat, census and crafters, a relay network for a client that drops channel messages, and chat that never touches the game's own chat box.">
+  <meta property="og:url" content="https://www.ruvidic.com/blog/warpact-wow-forever-addon">
+  <meta property="og:image" content="https://www.ruvidic.com/assets/img/og-image.png">
+  <meta property="og:site_name" content="Zoran Ruvidić">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Warpact: Building a Guild Pact Addon for WoW Forever">
+  <meta name="twitter:description" content="A World of Warcraft addon that links several Horde guilds on WoW Forever into one pact: shared chat, census and crafters, a relay network for a client that drops channel messages, and chat that never touches the game's own chat box.">
+  <meta name="twitter:image" content="https://www.ruvidic.com/assets/img/og-image.png">
+
+  <!-- Schema.org Article -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Warpact: Building a Guild Pact Addon for WoW Forever",
+  "description": "A World of Warcraft addon that links several Horde guilds on WoW Forever into one pact: shared chat, census and crafters, a relay network for a client that drops channel messages, and chat that never touches the game's own chat box.",
+  "image": "https://www.ruvidic.com/assets/img/og-image.png",
+  "url": "https://www.ruvidic.com/blog/warpact-wow-forever-addon",
+  "datePublished": "2026-11-13",
+  "dateModified": "2026-11-13",
+  "author": {
+    "@type": "Person",
+    "name": "Zoran Ruvidić",
+    "url": "https://www.ruvidic.com"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Zoran Ruvidić",
+    "url": "https://www.ruvidic.com"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.ruvidic.com/blog/warpact-wow-forever-addon"
+  }
+}
+  </script>
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-brand">RUVIDIĆ</a>
+    <div class="nav-links">
+      <a href="/#about">About</a>
+      <a href="/#work">Work</a>
+      <a href="/#passions">Interests</a>
+      <a href="/#blog">Blog</a>
+      <a href="/#contact">Contact</a>
+    </div>
+  </nav>
+
+  <article class="blog-article">
+    <div class="blog-inner">
+
+      <header class="blog-header">
+        <div class="blog-meta">
+          <span class="blog-tag t-amber">World of Warcraft · Lua · Side Project</span>
+          <span class="blog-date">November 2026</span>
+        </div>
+        <h1>Warpact<br><span>One Pact, Several Guilds</span></h1>
+        <p class="blog-lead">I went back to World of Warcraft on WoW Forever, and my guild, FEARLESS, wanted to link up with the other Balkan Horde guilds on the realm: one shared chat, a private room for guild leaders, and a way to find crafters across all of us. The game offers nothing like that, so we built an addon. The features were the easy part. The work was in the client's quirks.</p>
+      </header>
+
+      <div class="blog-body">
+
+        <h2>The Problem</h2>
+        <p>There are several small guilds from the same region on the realm. Everyone knows each other from Discord, but in game we are scattered: who is online in the other guild, who can craft that item, how do guild masters talk without alt-tabbing every five minutes?</p>
+        <p>The idea was a <strong>pact</strong>. Not a merger, just a shared layer on top of each guild. Every guild keeps its own name, ranks and bank, and the pact adds a common chat, a common member list and a common crafting directory.</p>
+
+        <h2>Starting Over</h2>
+        <p>The first attempt was a fork of an existing community addon. It worked inside one guild, and the moment a second guild was added to test, nothing came through. Reworking someone else's design around our needs would have taken longer than building something focused, so I started from scratch and gave it a name that fits the Horde: <strong>Warpact</strong>.</p>
+        <p>As with my other side projects, I described what I wanted to an AI assistant (Claude Code), and it wrote the Lua. My part was the requirements, the testing in game, and a lot of screenshots from guildmates.</p>
+
+        <h2>What It Does</h2>
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Census.</strong> Every guild in the pact with its members, notes, classes and levels, grouped by guild.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Crafter.</strong> A professions directory across the whole pact, including cooking, fishing and first aid, browsable by profession or by guild, with recipe search.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Pact chat.</strong> One chat for everyone in the pact, with mute, kick and ban.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Officers chat.</strong> A private room for guild masters and officers only. Ordinary members never see the tab.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Vox populi.</strong> Simple voting: click the number to vote, click again to take it back.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Layers.</strong> Which layer of the world you are on, so people can meet on the same one.</div>
+          </div>
+        </div>
+        <p>The pact has one <strong>master</strong>, who adds guilds from inside the game. No editing of Lua files, because not everyone in a guild is comfortable with code. The master can appoint up to five deputies, and until he does, nobody else can change anything. Other guilds don't create a pact; their guild master asks to join.</p>
+
+        <h2>The Client Drops Messages</h2>
+        <p>Addons talk to each other through hidden addon messages. On most clients you would open a custom channel for the pact and broadcast there. On WoW Forever, addon messages sent to a custom channel <strong>never arrive</strong>. Only guild, officer and whisper messages get through.</p>
+        <p>So Warpact runs a small relay network. In each guild, one online player becomes the <strong>reporter</strong>, chosen by a fixed rule so every client agrees without negotiating. Reporters whisper each other across guilds, and each repeats what it hears to its own guild. Every message carries an ID, so nothing is shown twice and nothing loops. When a reporter logs off, the next one takes over.</p>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Lesson</span>
+          <span class="blog-tip-text">A client can look like the classic game and run much newer code underneath. Half of the fixes came from that gap: events that don't exist, functions that moved, messages that are silently dropped. Test on the real client, not on what the documentation of another version says.</span>
+        </div>
+
+        <h2>Keeping Everyone in Sync, and in Line</h2>
+        <p>The pact record carries a revision number. A change spreads through the reporters, and anyone who missed it, offline or on an older version, catches up the next time their client says hello. One early bug was exactly that: a guild removed from the pact never found out, and kept the pact as if nothing happened. Stale copies are now corrected actively.</p>
+        <p>The other worry came from the guild leaders: what stops someone from installing the addon, founding their own pact and inviting people? Warpact is locked to one founded pact, edits are accepted only from the master or a deputy, and deputies can only add guilds, never remove them. The same least-privilege thinking I use at work, applied to a game.</p>
+
+        <h2>Chat That Feels Native</h2>
+        <p>Most feedback was about chat. Opening an addon window to type one line is clunky; people want to press Enter, like everywhere else in the game.</p>
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Short tags.</strong> Pact lines appear in the normal chat with a red <strong>[C]</strong>, officers lines with a blue <strong>[O]</strong>. Clicking the tag opens a chat box labeled the same way.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>A PACT tab.</strong> Name a chat tab PACT and the addon finds it: pact chat goes there, everything else is hidden in that tab, and the tab blinks on new messages, also with UI replacements like ElvUI.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Enter follows the tab.</strong> In the PACT tab, Enter writes to the pact. In General it is the game's own chat. After a whisper, the next Enter stays on the whisper, the way WoW behaves.</div>
+          </div>
+        </div>
+        <p>The constraint behind all of it is security. WoW protects certain actions, and an addon that touches the game's chat box the wrong way can leave commands typed in chat, like <code>/cast</code> or <code>/target</code>, blocked afterwards. So Warpact never changes the game's chat box. It uses its own input box placed where the game's would be, a key binding that exists only while you are in pact mode, and the game's standard message filters to hide lines. My first idea, faking a channel with a whisper to yourself, failed on the first try in game, because the functions it relied on don't exist on this client.</p>
+
+        <h2>Testing Without Logging In a Hundred Times</h2>
+        <p>You can't run unit tests inside the game, so the project has a <strong>simulator</strong>: a fake WoW Forever with several players, guilds, whispers, guild messages, combat lockdown and chat tabs. It refuses events the real client doesn't have, which is how it caught a bug that left the whole Crafter page blank in game. On top of it run more than 250 automated checks covering the relay network, the pact lock, moderation, voting and chat.</p>
+        <p>The other half of testing was the guild. The loop was short: someone posts a screenshot on Discord, the fix goes into a new build the same evening, and the next screenshot shows whether it worked. Many small versions, each one removing one real annoyance.</p>
+
+        <h2>Where It Stands</h2>
+        <p>The guilds in the pact see each other, chat across guilds works, and Crafter answers the question that started it all: who can make this? The next step is publishing Warpact on CurseForge so other guilds on WoW Forever can form their own pacts.</p>
+        <p>It's a game, but the lessons were the same as in any integration project: learn how the platform really behaves before designing around it, give people only the rights they need, and ship small changes to the people who use them every day.</p>
+
+      </div>
+
+      <footer class="blog-footer">
+        <a href="/#blog" class="btn-outline">&larr; Back to Blog</a>
+        <a href="/#contact" class="btn-filled">Get in touch &rarr;</a>
+      </footer>
+
+    </div>
+  </article>
+
+  <footer>
+    <div class="footer-brand">RUVIDIĆ · © 2026</div>
+    <div class="footer-note">ruvidic.com · Hosted on Vercel</div>
+  </footer>
+
+  <!-- Vercel Web Analytics -->
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

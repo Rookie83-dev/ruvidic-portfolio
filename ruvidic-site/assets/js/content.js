@@ -163,6 +163,13 @@ window.siteContent = {
   ],
   blog: [
     {
+      slug: "blog/warpact-wow-forever-addon",
+      tag: "World of Warcraft · Lua · Side Project", tagClass: "t-amber",
+      title: "Warpact: One Pact, Several Guilds",
+      excerpt: "A WoW addon linking several Horde guilds on WoW Forever into one pact: shared chat, census and crafters, a relay network for a client that drops channel messages, and chat that never touches the game's chat box.",
+      date: "November 2026"
+    },
+    {
       slug: "blog/android-auto-video-player",
       tag: "Android Auto · Kotlin · Side Project", tagClass: "t-blue",
       title: "A Video Player for My Car",
