@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no,date=no,address=no,email=no">
+  <title>A Video Player for My Car: Building an Android Auto App · Zoran Ruvidić</title>
+  <meta name="description" content="A personal Android Auto app that plays my own videos on the car screen while parked: four phones, a wireless-only head unit, and why the only install route that worked was Google Play's internal testing track.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap"></noscript>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+  <link rel="canonical" href="https://www.ruvidic.com/blog/android-auto-video-player">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="A Video Player for My Car: Building an Android Auto App">
+  <meta property="og:description" content="A personal Android Auto app that plays my own videos on the car screen while parked: four phones, a wireless-only head unit, and why the only install route that worked was Google Play's internal testing track.">
+  <meta property="og:url" content="https://www.ruvidic.com/blog/android-auto-video-player">
+  <meta property="og:image" content="https://www.ruvidic.com/assets/img/og-image.png">
+  <meta property="og:site_name" content="Zoran Ruvidić">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="A Video Player for My Car: Building an Android Auto App">
+  <meta name="twitter:description" content="A personal Android Auto app that plays my own videos on the car screen while parked: four phones, a wireless-only head unit, and why the only install route that worked was Google Play's internal testing track.">
+  <meta name="twitter:image" content="https://www.ruvidic.com/assets/img/og-image.png">
+
+  <!-- Schema.org Article -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "A Video Player for My Car: Building an Android Auto App",
+  "description": "A personal Android Auto app that plays my own videos on the car screen while parked: four phones, a wireless-only head unit, and why the only install route that worked was Google Play's internal testing track.",
+  "image": "https://www.ruvidic.com/assets/img/og-image.png",
+  "url": "https://www.ruvidic.com/blog/android-auto-video-player",
+  "datePublished": "2026-11-13",
+  "dateModified": "2026-11-13",
+  "author": {
+    "@type": "Person",
+    "name": "Zoran Ruvidić",
+    "url": "https://www.ruvidic.com"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Zoran Ruvidić",
+    "url": "https://www.ruvidic.com"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.ruvidic.com/blog/android-auto-video-player"
+  }
+}
+  </script>
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-brand">RUVIDIĆ</a>
+    <div class="nav-links">
+      <a href="/#about">About</a>
+      <a href="/#work">Work</a>
+      <a href="/#passions">Interests</a>
+      <a href="/#blog">Blog</a>
+      <a href="/#contact">Contact</a>
+    </div>
+  </nav>
+
+  <article class="blog-article">
+    <div class="blog-inner">
+
+      <header class="blog-header">
+        <div class="blog-meta">
+          <span class="blog-tag t-blue">Android Auto · Kotlin · Side Project</span>
+          <span class="blog-date">November 2026</span>
+        </div>
+        <h1>A Video Player<br><span>for My Car</span></h1>
+        <p class="blog-lead">I wanted one small thing: to watch a video on the car's screen while parked and waiting. The apps advertised for it are paid and installed from outside Google Play, so I tried building my own. The code took an afternoon. Getting it onto the dashboard took two weeks, four phones and a detour through the Play Console.</p>
+      </header>
+
+      <div class="blog-body">
+
+        <h2>The Idea</h2>
+        <p>My car runs BMW's iDrive 8 and supports Android Auto. Android Auto deliberately has no video apps, because a screen in front of the driver should not play video while the car moves. Google is rolling out official video for parked cars, but it needs a recent phone and support from the car maker, and neither had reached me yet.</p>
+        <p>So the goal was narrow: a personal app that lists the video files stored on the phone and plays one on the car display, <strong>only while the car is standing still</strong>. Above walking speed the picture is replaced by a notice and only the sound continues. That rule was in the first version, not added later.</p>
+
+        <h2>The App Itself</h2>
+        <p>The app is written in Kotlin and is small: a handful of files built on two Google libraries, the Car App Library for everything Android Auto shows, and Media3 for playback. On the phone it has a single screen that asks for permission to read videos. In the car it has a list of files and four buttons: list, previous, play or pause, next.</p>
+        <p>I am not an Android developer. I described what I wanted to an AI assistant, it wrote the project, and I built it in Android Studio. It compiled on the first try, which told me nothing, because nothing had run in a car yet.</p>
+
+        <h2>Four Phones Later</h2>
+        <p>I assumed any Android device from a drawer would do for testing. Each one taught me a requirement I had not known about:</p>
+
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>A tablet.</strong> The app installed and found my videos, but Android Auto does not exist on tablets. The car paired with it over Bluetooth for calls and nothing else.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>An old Galaxy J7.</strong> Its Android version is too old for current Android Auto.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>A Galaxy A12.</strong> New enough, but its Wi-Fi is 2.4 GHz only. Wireless Android Auto needs 5 GHz, and my car offers Android Auto only wirelessly, so the USB cable I kept reaching for was never an option.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>A Redmi Note 8 Pro from 2019.</strong> Android 11 and dual-band Wi-Fi. It connected to the car on the first attempt.</div>
+          </div>
+        </div>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Lesson</span>
+          <span class="blog-tip-text">Check the head unit before the phone. Bluetooth only introduces the two devices; the picture travels over a direct 5 GHz Wi-Fi link. A phone that pairs for calls can still be useless for Android Auto.</span>
+        </div>
+
+        <h2>Installed Is Not the Same as Visible</h2>
+        <p>With a working phone, the app was installed and running, and it still did not appear on the car screen. Android Auto only shows apps it trusts, and trust means the app came from Google Play.</p>
+        <p>There is a developer setting for apps from unknown sources. On this phone it changed nothing. The other shortcut I tried changed nothing either. Play's internal app sharing, meant for passing a build to a colleague, refused the upload because the app did not exist on Play yet.</p>
+        <p>What worked was the documented route for testing a car app in a real vehicle: an <strong>internal testing track</strong> in the Play Console. The app is uploaded as a signed bundle, released to a list of testers that contains exactly one account, mine, and installed from the Play Store like any other app. Nobody else can see or install it. Ten minutes later it was on the dashboard.</p>
+
+        <div class="blog-tip">
+          <span class="blog-tip-label">Worth saying plainly</span>
+          <span class="blog-tip-text">This is a private test build for one device. Video is not an open app category on Android Auto, so it is not something Google would approve for public release in this form, and I am not distributing it. The internal track exists for testing on your own hardware, and that is all I use it for.</span>
+        </div>
+
+        <h2>Small Things That Cost a Build Each</h2>
+
+        <div class="checklist">
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Target API level.</strong> The first upload was rejected because new apps must target the latest Android API level. Two numbers in the build file, one more build.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Version codes are single use.</strong> I discarded a draft release and uploaded again with the same version code. Play remembers every code it has ever seen, even in a discarded draft.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>The tester is the phone's account.</strong> The tester list has to contain the Google account signed in to the Play Store on the device, which was not the account I develop with.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>"Can't download" is often just "not yet".</strong> Right after publishing, the Play Store showed the app and refused to install it. A few minutes later the same button worked.</div>
+          </div>
+          <div class="checklist-item">
+            <span class="check">&rarr;</span>
+            <div><strong>Xiaomi asks on the phone.</strong> Installing from a computer over USB fails with "canceled by user" unless you confirm a prompt on the phone's own screen within a few seconds.</div>
+          </div>
+        </div>
+
+        <h2>Where It Stands</h2>
+        <p>It works. A cartoon from the public-domain shelves of the Internet Archive played on the car display in a parking garage, with sound through the car speakers. Android Auto keeps its own side panel next to the video on a wide screen, so the picture does not fill the display yet. That is the next thing to look at, along with testing the speed cut-off properly, from the passenger seat, with someone else driving.</p>
+        <p>The pattern is the same one I keep running into with side projects: the program was the small part. The work was in everything around it, which phone, which radio band, which install path a platform is willing to trust. None of that was in the code, and all of it decided whether the code could run.</p>
+
+      </div>
+
+      <footer class="blog-footer">
+        <a href="/#blog" class="btn-outline">&larr; Back to Blog</a>
+        <a href="/#contact" class="btn-filled">Get in touch &rarr;</a>
+      </footer>
+
+    </div>
+  </article>
+
+  <footer>
+    <div class="footer-brand">RUVIDIĆ · © 2026</div>
+    <div class="footer-note">ruvidic.com · Hosted on Vercel</div>
+  </footer>
+
+  <!-- Vercel Web Analytics -->
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

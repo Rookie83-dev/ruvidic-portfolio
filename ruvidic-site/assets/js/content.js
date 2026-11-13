@@ -163,6 +163,13 @@ window.siteContent = {
   ],
   blog: [
     {
+      slug: "blog/android-auto-video-player",
+      tag: "Android Auto · Kotlin · Side Project", tagClass: "t-blue",
+      title: "A Video Player for My Car",
+      excerpt: "A personal Android Auto app that plays my own videos on the car screen while parked: four phones, a wireless-only head unit, and the one install route that worked.",
+      date: "November 2026"
+    },
+    {
       slug: "blog/shipping-snekcade",
       tag: "Product · PWA · Google Play", tagClass: "t-green",
       title: "From Side Project to Google Play",
